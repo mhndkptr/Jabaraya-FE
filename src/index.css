@@ -1,13 +1,83 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-Urbanist;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer utilities {
+  .header1 {
+    @apply font-Urbanist text-8xl font-normal;
+  }
+
+  .header1-bold {
+    @apply font-Urbanist text-8xl font-bold;
+  }
+
+  .header2 {
+    @apply font-Urbanist text-[64px] font-normal;
+  }
+
+  .header2-bold {
+    @apply font-Urbanist text-[64px] font-bold;
+  }
+
+  .header3 {
+    @apply font-Urbanist text-5xl font-normal;
+  }
+
+  .header3-bold {
+    @apply font-Urbanist text-5xl font-bold;
+  }
+
+  .header4 {
+    @apply font-Urbanist text-[40px] font-normal;
+  }
+
+  .header4-bold {
+    @apply font-Urbanist text-[40px] font-bold;
+  }
+
+  .header5 {
+    @apply font-Urbanist text-4xl font-normal;
+  }
+
+  .header5-bold {
+    @apply font-Urbanist text-4xl font-bold;
+  }
+
+  .titel1 {
+    @apply font-Urbanist text-[32px] font-normal;
+  }
+
+  .titel1-bold {
+    @apply font-Urbanist text-[32px] font-bold;
+  }
+
+  .titel2 {
+    @apply font-Urbanist text-2xl font-normal;
+  }
+
+  .titel2-bold {
+    @apply font-Urbanist text-2xl font-bold;
+  }
+
+  .text-body {
+    @apply font-Urbanist text-xl font-normal;
+  }
+
+  .text-body-bold {
+    @apply font-Urbanist text-xl font-bold;
+  }
+
+  .text-caption {
+    @apply font-Urbanist text-base font-normal;
+  }
+
+  .text-caption-bold {
+    @apply font-Urbanist text-base font-bold;
+  }
 }
