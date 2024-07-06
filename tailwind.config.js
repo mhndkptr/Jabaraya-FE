@@ -23,7 +23,12 @@ export default {
       fontFamily: {
         Urbanist: ["Urbanist", "sans-serif"],
       },
+      backgroundImage: {
+        'loginRegister-gradient': 'linear-gradient(to bottom, #3C90E8, #1D1DA0)',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-gradients'),
+  ],
 };
