@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Profile from "./views/Profile";
@@ -14,6 +13,7 @@ import DefaultLayout from "./components/DefaultLayout";
 import AdminLayout from "./components/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./views/NotFound";
+import Dashboard from "./views/admin/Dashboard";
 
 const isLoggedIn = () => !!localStorage.getItem("USER_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
+   path: "/",
     element: (
       <ProtectedRoute
         isAllowed={isLoggedIn() && getRole() === "admin"}
