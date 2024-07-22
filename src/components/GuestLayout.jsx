@@ -1,10 +1,10 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Beranda from "../views/Beranda";
+import { Link, Outlet } from "react-router-dom";
+import Navbar from "../views/komponen/navbar";
 
 export default function DefaultLayout() {
   return (
     <>
+      <Navbar></Navbar>
       <Outlet />
     </>
   );
