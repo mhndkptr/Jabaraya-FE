@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import axiosClient from "../api/axios";
+import axiosClient from "../api/axios/axios";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 
