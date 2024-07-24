@@ -20,6 +20,7 @@ import EventManajemen from "./views/admin/EventManajemen";
 import CulturelManajemen from "./views/admin/CulturelManajemen";
 import UserManajemen from "./views/admin/UserManajemen";
 import KategoriManajemen from "./views/admin/KategoriManajemen";
+import SocialLoginRedirect from "./views/SocialLoginRedirect";
 
 const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/login/redirect",
+    element: <SocialLoginRedirect />,
   },
   {
     path: "*",
