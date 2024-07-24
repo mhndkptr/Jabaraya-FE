@@ -7,7 +7,7 @@ import Navbar from "./komponen/navbar";
 export default function Beranda() {
   return (
     // SECTION 1 BERANDA HALAMAN UTAMA
-    <section className="  ">
+    <section>
       <section className="md:w-full md:h-screen md:bg-jabarayaColors-100">
         {/* <Navbar /> */}
         <div className="md:flex md:flex-col items-center justify-center">
