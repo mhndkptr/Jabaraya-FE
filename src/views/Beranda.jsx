@@ -48,7 +48,7 @@ export default function Beranda() {
         id="BuatRencana"
         className="w-full md:h-screen  h-auto  bg-white md:bg-jabarayaColors-50 flex justify-center items-center"
       >
-        <div className="flex flex-col justify-center items-center p-2 ">
+        <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-semibold text-4xl text-center mb-4">
             Buat Rencana Perjalanan Anda
           </h1>
