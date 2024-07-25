@@ -14,18 +14,22 @@ import AdminLayout from "./components/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./views/NotFound";
 import Dashboard from "./views/admin/Dashboard";
+import BeritaManajemen from "./views/admin/BeritaManajemen";
+import ArtikelManajemen from "./views/admin/ArtikelManajemen";
+import EventManajemen from "./views/admin/EventManajemen";
+import CulturelManajemen from "./views/admin/CulturelManajemen";
+import UserManajemen from "./views/admin/UserManajemen";
+import KategoriManajemen from "./views/admin/KategoriManajemen";
+import SocialLoginRedirect from "./views/SocialLoginRedirect";
 
-const isLoggedIn = () => !!localStorage.getItem("USER_TOKEN");
+const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: isLoggedIn() ? (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "user"}
-        role={getRole()}
-      >
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()}>
         <DefaultLayout />
       </ProtectedRoute>
     ) : (
@@ -42,16 +46,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    // path: "/",
-    // element: (
-    //   <ProtectedRoute
-    //     isAllowed={isLoggedIn() && getRole() === "user"}
-    //     role={getRole()}
-    //     isLoggedIn={isLoggedIn()}
-    //   >
-    //     <DefaultLayout />
-    //   </ProtectedRoute>
-    // ),
+    path: "/",
+    element: (
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()} isLoggedIn={isLoggedIn()}>
+        <DefaultLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "/perjalananfavorite", element: <PerjalananFavorite /> },
       { path: "/profile", element: <Profile /> },
@@ -59,37 +59,34 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={!isLoggedIn()}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      />
-    ),
+    element: <ProtectedRoute isAllowed={!isLoggedIn()} role={getRole()} isLoggedIn={isLoggedIn()} />,
     children: [
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],
   },
   {
-   path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "admin"}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      />
-    ),
+    path: "/",
+    element: <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "admin"} role={getRole()} isLoggedIn={isLoggedIn()} />,
     children: [
       {
-        path: "/dashboard",
-        element: (
-          <AdminLayout>
-            <Dashboard />
-          </AdminLayout>
-        ),
+        path: "/",
+        element: <AdminLayout></AdminLayout>,
+        children: [
+          { path: "/dashboard", element: <Dashboard /> },
+          { path: "/BeritaManajemen", element: <BeritaManajemen /> },
+          { path: "/ArtikelManajemen", element: <ArtikelManajemen /> },
+          { path: "/EventManajemen", element: <EventManajemen /> },
+          { path: "/CulturelManajemen", element: <CulturelManajemen /> },
+          { path: "/UserManajemen", element: <UserManajemen /> },
+          { path: "/KategoriManajemen", element: <KategoriManajemen /> },
+        ],
       },
     ],
+  },
+  {
+    path: "/login/redirect",
+    element: <SocialLoginRedirect />,
   },
   {
     path: "*",
