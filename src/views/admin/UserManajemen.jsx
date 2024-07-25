@@ -1,8 +1,22 @@
 import NavbarAdmin from "./partials/NavbarAdmin";
 import { SidebarAdmin } from "./partials/SidebarAdmin";
 import { Table } from "flowbite-react";
-
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
 export default function UserManajemen(){
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const token = 'your-auth-token';
+
+        Axios.get('http://127.0.0.1:8000/api/user', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                setUser(response.data);
+            })
+            .catch(error => console.error('Error fetching user:', error));
+    }, []);
     return(
         <div className="">
             <NavbarAdmin/>
@@ -12,7 +26,7 @@ export default function UserManajemen(){
                         <div className="flex flex-col justify-between p-8 bg-white shadow-lg rounded-lg ring-1">
                             <div>
                             <h1 className="text-sm">Data Users Jabaraya</h1>
-                            <p className="text-4xl font-bold">+9999999 User</p>
+                            <p className="text-4xl font-bold">{user.length} User</p>
                             </div>
                         </div>
                     </div>
