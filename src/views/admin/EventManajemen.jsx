@@ -1,83 +1,307 @@
 import NavbarAdmin from "./partials/NavbarAdmin";
 import { SidebarAdmin } from "./partials/SidebarAdmin";
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"; // for selectable
+import { Table } from "flowbite-react";
 
-export default function EventManajemen(){
+export default function EventManajemen() {
+    const [kategori, setKategori] = useState([]);
+    const [cultures, setEvent] = useState([]);
+    const [form, setForm] = useState({
+        name: "",
+        thumbnail: "",
+        start_date: "",
+        end_date: "",
+        location: "",
+        content: "",
+        link: "",
+        category_id: "",
+    });
+    // const [searchQuery, setSearchQuery] = useState("");
+    const [EditEvent, setEditEvent] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
+
+    useEffect(() => {
+        Axios.get("http://127.0.0.1:8000/api/categorys")
+            .then(response => {
+                setKategori(response.data);
+            })
+            .catch(error => console.error("Error fetching categories:", error));
+    }, []);
+    
+    useEffect(() => {
+        Axios.get("http://127.0.0.1:8000/api/events")
+            .then(response => {
+                setEvent(response.data);
+            })
+            .catch(error => console.error("Error fetching cultures:", error));
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        setForm({ ...form, thumbnail: e.target.files[0] });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("name", form.name);
+        formData.append("start_date", form.start_date);
+        formData.append("end_date", form.end_date);
+        formData.append("location", form.location);
+        formData.append("content", form.content);
+        formData.append("link", form.link);
+        formData.append("category_id", form.category_id);
+        if (form.thumbnail) {
+            formData.append("thumbnail", form.thumbnail);
+        }
+
+        Axios.post("http://127.0.0.1:8000/api/events", formData)
+            .then(response => {
+                setEvent([...cultures, response.data]);
+                setForm({ name: "", start_date: "", end_date: "", location: "", content: "", link: "", thumbnail: "", category_id: "" });
+            })
+            .catch(error => console.error("Error adding cultures:", error));
+    };
+
+    const handleEdit = (cultures) => {
+        console.log("Editing cultures:", cultures);
+        setEditEvent(cultures);
+        setForm({
+            name: cultures.name,
+            content: cultures.content,
+            start_date: cultures.start_date,
+            end_date: cultures.end_date,
+            location: cultures.location,
+            link: cultures.link,
+            thumbnail: "",
+            category_id: cultures.category_id,
+        });
+    };
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append("name", form.name);
+        formData.append("start_date", form.start_date);
+        formData.append("end_date", form.end_date);
+        formData.append("location", form.location);
+        formData.append("content", form.content);
+        formData.append("link", form.link);
+        formData.append("category_id", form.category_id);
+        if (form.thumbnail) {
+            formData.append("thumbnail", form.thumbnail);
+        }
+
+        console.log("Form Data being sent:", formData);
+
+        Axios.post(`http://127.0.0.1:8000/api/events/${EditEvent.id}`, formData, {
+            headers: {
+                'X-HTTP-Method-Override': 'PUT'
+            }
+        })
+            .then(response => {
+                console.log("Updated cultures:", response.data);
+                setEvent(cultures.map(culture => culture.id === EditEvent.id ? response.data : culture));
+                setEditEvent(null); // Clear edit state
+                setForm({ name: "", content: "", thumbnail: "", category_id: "" });
+            })
+            .catch(error => console.error("Error updating cultures:", error));
+    };
+
+    const handleDelete = (id) => {
+        Axios.delete(`http://127.0.0.1:8000/api/events/${id}`)
+            .then(() => {
+                setEvent(cultures.filter(culture => culture.id !== id));
+            })
+            .catch(error => console.error("Error deleting cultures:", error));
+    };
+
+    const handleEventClick = (info) => {
+        const eventData = cultures.find(culture => culture.name === info.event.title);
+        setSelectedEvent(eventData);
+        setModalVisible(true);
+    };
+
+    const events = cultures.map(culture => ({
+        title: culture.name,
+        start: culture.start_date,
+        end: culture.end_date
+    }));
+
+    const closeModal = () => {
+        setModalVisible(false);
+        setSelectedEvent(null);
+    };
+
     return(
         <div className="">
-            <NavbarAdmin/>
-            <SidebarAdmin/>
-                <div className="p-4 mt-10 sm:ml-64">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 mt-10">
-                        <div className="flex flex-col justify-between p-8 bg-white shadow-lg rounded-lg ring-1">
-                            <div>
-                            <h1 className="text-sm">Data Event Yang Dipublish</h1>
-                            <p className="text-4xl font-bold">4 Event</p>
-                            <span className="mt-2">Sudah Dipublish</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 mt-10">
-                        <div className="flex flex-col justify-between p-8 bg-white shadow-lg rounded-lg ring-1">
-                            <div>
-                                <div className="shadow-lg rounded">
-                                    <div className="bg-jabarayaColors-500 text-white p-4">
-                                        <h5 className="text-lg font-semibold">Agenda Kegiatan Event</h5>
-                                    </div>
-                                    <div className="p-4">
-                                    <form>
-                                        <input type="hidden" name="id" value="" />
-                                        <div className="col-span-2">
-                                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Event</label>
-                                            <input type="text" id="name" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Judul Event"/>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="thumbnail" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thumbnail</label>
-                                            <input type="file" id="thumbnail" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="start" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Mulai</label>
-                                            <input type="datetime-local" id="start" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="end" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Selesai</label>
-                                            <input type="datetime-local" id="end" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="location" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lokasi</label>
-                                            <input type="text" id="location" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Lokasi Event"/>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
-                                            <textarea id="content" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Deskripsi Event"></textarea>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
-                                            <input type="text" id="link" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Link Event"/>
-                                        </div>
-                                        <div className="col-span-2">
-                                            <label htmlFor="kategori" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
-                                            <select id="kategori" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                <option value="1">Pendidikan</option>
-                                                <option value="2">Budaya</option>
-                                                <option value="3">Seni</option>
-                                            </select>
-                                        </div>
-                                        <div className="flex justify-center space-x-2 mt-5">
-                                            <button className="bg-jabarayaColors-500 hover:bg-jabarayaColors-700 text-white font-medium py-2 px-4 rounded" type="submit" form="schedule-form"> Simpan </button>
-                                            <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded" type="reset" form="schedule-form"> Batal</button>
-                                        </div>
-                                    </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col justify-between p-8 bg-white shadow-lg rounded-lg ring-1">
-                            <div>
-                                <h1>disini kalender event</h1>
-                            </div>
-                        </div>
+        <NavbarAdmin/>
+        <SidebarAdmin/>
+        <div className="p-4 mt-10 sm:ml-64">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 mt-10">
+                <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 dark:ring-gray-700">
+                    <div>
+                        <h1 className="text-sm text-gray-900 dark:text-gray-100">Data Event Yang Dipublish</h1>
+                        <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{cultures.length} Event</p>
+                        <span className="mt-2 text-gray-700 dark:text-gray-300">Sudah Dipublish</span>
                     </div>
                 </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 mt-10">
+                <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 dark:ring-gray-700">
+                    <div>
+                        <div className="shadow-lg rounded bg-jabarayaColors-500 dark:bg-jabarayaColors-600 text-white">
+                            <div className="p-4">
+                                <h5 className="text-lg font-semibold">Agenda Kegiatan Event</h5>
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <FullCalendar
+                                plugins={[dayGridPlugin, interactionPlugin]}
+                                initialView="dayGridMonth"
+                                events={events}
+                                eventClick={handleEventClick}
+                            />
+                        </div>
+                    </div>
+                    {EditEvent && (
+                            <div>
+                                <h1 className="text-gray-900 dark:text-gray-100">Edit Event</h1>
+                                <form className="p-4 md:p-5" onSubmit={handleEditSubmit}>
+                                    <div className="grid gap-4 mb-4 grid-cols-2">
+                                        <div className="col-span-2">
+                                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nama Event</label>
+                                            <input type="text" id="name" name="name" value={form.name} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter name" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="thumbnail" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Thumbnails</label>
+                                            <input type="file" id="thumbnail" name="thumbnail" onChange={handleFileChange} aria-label="Upload thumbnails" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 shadow-md hover:shadow-lg focus:outline-none focus:bg-white dark:focus:bg-gray-600 transition duration-200 ease-in-out" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="start_date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Start Date</label>
+                                            <input type="datetime-local" id="start_date" name="start_date" value={form.start_date} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Select start date" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="end_date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">End Date</label>
+                                            <input type="datetime-local" id="end_date" name="end_date" value={form.end_date} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Select end date" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="location" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Location</label>
+                                            <input type="text" id="location" name="location" value={form.location} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter location" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Content</label>
+                                            <textarea id="content" name="content" value={form.content} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter content" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Link</label>
+                                            <input type="url" id="link" name="link" value={form.link} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter link" />
+                                        </div>
+                                        <div className="col-span-2">
+                                            <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Category</label>
+                                            <select id="category_id" name="category_id" value={form.category_id} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                <option value="">Select category</option>
+                                                {kategori.map(category => (
+                                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="bg-jabarayaColors-500 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        Update Event
+                                    </button>
+                                </form>
+                            </div>
+                        )}
+                </div>
+                <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 dark:ring-gray-700">
+                    <div>
+                        <h1 className="text-gray-900 dark:text-gray-100">Event Form</h1>
+                        <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+                            <div className="grid gap-4 mb-4 grid-cols-2">
+                                <div className="col-span-2">
+                                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nama Event</label>
+                                    <input type="text" id="name" name="name" value={form.name} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter name"/>
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="thumbnail" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Thumbnails</label>
+                                    <input type="file" id="thumbnail" name="thumbnail" onChange={handleFileChange} aria-label="Upload thumbnails" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 shadow-md hover:shadow-lg focus:outline-none focus:bg-white dark:focus:bg-gray-600 transition duration-200 ease-in-out" />
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="start_date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Start Date</label>
+                                    <input type="datetime-local" id="start_date" name="start_date" value={form.start_date} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" required/>
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="end_date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">End Date</label>
+                                    <input type="datetime-local" id="end_date" name="end_date" value={form.end_date} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" required/>
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="location" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Location</label>
+                                    <input type="text" id="location" name="location" value={form.location} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter location" required/>
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Content</label>
+                                    <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>                    
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Link</label>
+                                    <input type="text" id="link" name="link" value={form.link} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter link" required/>
+                                </div>
+                                <div className="col-span-2">
+                                    <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Category</label>
+                                    <select id="category_id" name="category_id" value={form.category_id} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                        <option value="">Select Category</option>
+                                        {kategori.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>    
+                            </div>
+                            <button type="submit" className="inline-flex items-center text-black bg-transparent border border-black hover:bg-jabarayaColors-700 hover:text-white hover:border-none focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-gray-600 dark:hover:text-white dark:text-white dark:border-none dark:bg-gray-700">
+                                <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                                Tambah Berita   
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+        {modalVisible && selectedEvent && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-11/12 md:w-1/3">
+                    <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">{selectedEvent.name}</h2>
+                    {/* thumbnail */}
+                    <img src={`http://127.0.0.1:8000/storage/${selectedEvent.thumbnail}`} alt={selectedEvent.name} className="w-full h-64 object-cover mb-4 rounded-lg" />
+                    <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Location:</strong> <a href={selectedEvent.location} target="_blank" rel="noopener noreferrer" className="text-blue-500 dark:text-blue-400">{selectedEvent.location}</a></p>
+                    <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Start Date:</strong> {selectedEvent.start_date}</p>
+                    <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">End Date:</strong> {selectedEvent.end_date}</p>
+                    <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Content:</strong> {selectedEvent.content}</p>
+                    <p><strong className="text-gray-900 dark:text-gray-100">Link:</strong> <a href={selectedEvent.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 dark:text-blue-400">{selectedEvent.link}</a></p>
+                    <button onClick={closeModal} className="mt-4 inline-flex items-center text-black bg-transparent border border-black hover:bg-jabarayaColors-700 hover:text-white hover:border-none focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-gray-600 dark:hover:text-white dark:text-white dark:border-none dark:bg-gray-700">
+                        Close
+                    </button>
+                    <button onClick={() => handleDelete(selectedEvent.id)} className="mx-2 mt-4 inline-flex items-center text-red-700 bg-transparent border border-black hover:bg-red-700 hover:text-white hover:border-none focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-gray-600 dark:hover:text-white dark:text-white dark:border-none dark:bg-gray-700">
+                        Delete
+                    </button>
+                    <button onClick={() => handleEdit(selectedEvent)} className="mt-4 inline-flex items-center text-black bg-transparent border border-black hover:bg-jabarayaColors-700 hover:text-white hover:border-none focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-gray-600 dark:hover:text-white dark:text-white dark:border-none dark:bg-gray-700">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        )}
+    </div>    
     )
 }
