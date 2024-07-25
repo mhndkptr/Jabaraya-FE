@@ -5,7 +5,6 @@ import berita1 from "../assets/img-beranda/berita1.png";
 export default function DaftarBudaya() {
   return (
     <>
-      <Navbar />
       <section className="min-h-screen mb-10">
         <h2 className="font-semibold header5 text-center mt-16">
           Budaya di Bandung Raya
