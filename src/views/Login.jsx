@@ -34,12 +34,16 @@ export default function Login() {
 
   const handleGoogleLogin = (event) => {
     event.preventDefault();
-    window.location.replace(import.meta.env.VITE_API_BASE_URL + "/api/login/google");
+    window.location.replace(
+      import.meta.env.VITE_API_BASE_URL + "/api/login/google"
+    );
   };
 
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.replace(import.meta.env.VITE_API_BASE_URL + "/api/login/facebook");
+    window.location.replace(
+      import.meta.env.VITE_API_BASE_URL + "/api/login/facebook"
+    );
   };
 
   return (

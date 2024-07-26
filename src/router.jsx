@@ -23,6 +23,7 @@ import KategoriManajemen from "./views/admin/KategoriManajemen";
 import SocialLoginRedirect from "./views/SocialLoginRedirect";
 import BeritaLengkap from "./views/detail/beritaLengkap";
 import ArtikelLengkap from "./views/detail/artikelLengkap";
+import BudayaLengkap from "./views/detail/budayaLengkap";
 
 const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -50,19 +51,20 @@ const router = createBrowserRouter([
       { path: "/daftarbudaya", element: <DaftarBudaya /> },
       { path: "/beritalengkap", element: <BeritaLengkap /> },
       { path: "/artikellengkap", element: <ArtikelLengkap /> },
+      { path: "/budayalengkap", element: <BudayaLengkap /> },
     ],
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "user"}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      >
-        <DefaultLayout />
-      </ProtectedRoute>
-    ),
+    // element: (
+    //   <ProtectedRoute
+    //     isAllowed={isLoggedIn() && getRole() === "user"}
+    //     role={getRole()}
+    //     isLoggedIn={isLoggedIn()}
+    //   >
+    //     <DefaultLayout />
+    //   </ProtectedRoute>
+    // ),
     children: [
       { path: "/perjalananfavorite", element: <PerjalananFavorite /> },
       { path: "/profile", element: <Profile /> },

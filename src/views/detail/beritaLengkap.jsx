@@ -8,9 +8,9 @@ export default function BeritaLengkap() {
         <span class="material-symbols-outlined">chevron_left</span>{" "}
         <p>Kembali</p>
       </button>
-      <aside className="bg-jabarayaColors-200  flex flex-col w-full h-auto mt-5 rounded-xl md:grid md:grid-cols-[1fr,1fr] md:p-10 p-4 ">
-        <div className="flex flex-col justify-between  order-2 md:order-1">
-          <h2 className="md:text-4xl   font-bold md:font-semibold md:w-[700px]">
+      <aside className="bg-jabarayaColors-200  flex flex-col w-full h-auto mt-5 rounded-xl lg:grid lg:grid-cols-[1fr,1fr] md:p-10 p-4 ">
+        <div className="flex flex-col justify-between  order-2 lg:order-1">
+          <h2 className="lg:text-4xl   font-bold md:font-semibold lg:w-[700px]">
             Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare Meninggal
             Dunia, Dikebumikan di TPU Nagrog
           </h2>
@@ -21,11 +21,11 @@ export default function BeritaLengkap() {
             20/05/2024
           </a>
         </div>
-        <div className="flex justify-center items-center order-1 md:order-2 mb-2">
+        <div className="flex justify-center items-center order-1 lg:order-2 mb-2">
           <img
             src={berita1}
             alt=""
-            className=" border border-black rounded-lg md:w-[350px] md:h-[300px]"
+            className=" border border-black rounded-lg lg:w-[350px] lg:h-[300px]"
           />
         </div>
       </aside>
