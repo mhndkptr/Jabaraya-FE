@@ -30,8 +30,8 @@ export default function BudayaLengkap() {
         </div>
       </aside>
       <main className="flex flex-col justify-center items-center mt-10">
-        <div>
-          <h2 className="text-center font-bold text-xl mb-7">
+        <div className="flex flex-col justify-center  items-center">
+          <h2 className="text-center font-bold text-xl  md:text-2xl  mb-7">
             Lorem ipsum dolor sit amet consectetur.
           </h2>
           <img
@@ -41,7 +41,7 @@ export default function BudayaLengkap() {
           />
         </div>
         <article className="mt-20 font-medium w-full ">
-          <h2 className="font-bold text-sm mb-3">Definisi</h2>
+          <h2 className="font-bold text-sm  md:text-xl mb-3">Definisi</h2>
           <p className="mb-5 text-justify  ">
             Batagor (singkatan dari Baso, Tahu, Goreng), adalah jajanan
             khas Bandung[1] yang kini sudah dikenal hampir di seluruh
@@ -61,7 +61,7 @@ export default function BudayaLengkap() {
             pedagang juga ada yang menyajikan batagor dengan tambahan irisan
             timun yang menambah cita rasa batagor semakin enak.
           </p>
-          <h2 className="font-bold text-sm mb-3 mt-3">Sejarah</h2>
+          <h2 className="font-bold text-sm  md:text-xl mb-3 mt-3">Sejarah</h2>
 
           <p className="mb-5 text-justify ">
             Deep learning adalah bentuk kecerdasan buatan yang meniru cara kerja
@@ -89,10 +89,12 @@ export default function BudayaLengkap() {
           </h2>
 
           <div className="min-h-screen md:p-8">
-            <h2 className="font-bold text-sm mb-7 mt-3">Rekomendasi</h2>
+            <h2 className="font-bold text-sm mb-7  md:text-xl mt-3">
+              Rekomendasi
+            </h2>
             <div className="max-w-7xl mx-auto">
-              <div className=" w-[370px]  md:w-auto scrollbar overflow-x-auto">
-                <div className="flex space-x-4">
+              <div className=" w-[370px]  md:w-full scrollbar overflow-x-scroll  ">
+                <div className="flex  gap-[1rem]">
                   {/* Floating Market Cards */}
                   {[...Array(10)].map((_, index) => (
                     <div

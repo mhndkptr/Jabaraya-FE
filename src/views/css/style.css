@@ -1,9 +1,5 @@
 .scrollbar {
-  overflow: auto; /* Menampilkan scrollbar jika konten melebihi ukuran elemen */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-}
-
-.scrollbar::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  /* Menampilkan scrollbar jika konten melebihi ukuran elemen */
+  /* Firefox */
+  scrollbar-color: transparent transparent; /* Internet Explorer 10+ */
 }

@@ -24,6 +24,8 @@ import SocialLoginRedirect from "./views/SocialLoginRedirect";
 import BeritaLengkap from "./views/detail/beritaLengkap";
 import ArtikelLengkap from "./views/detail/artikelLengkap";
 import BudayaLengkap from "./views/detail/budayaLengkap";
+import BuatRencana from "./views/BuatRencana";
+import EventLengkap from "./views/detail/eventLengkap";
 
 const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -52,6 +54,8 @@ const router = createBrowserRouter([
       { path: "/beritalengkap", element: <BeritaLengkap /> },
       { path: "/artikellengkap", element: <ArtikelLengkap /> },
       { path: "/budayalengkap", element: <BudayaLengkap /> },
+      { path: "/buatrencana", element: <BuatRencana /> },
+      { path: "/eventlengkap", element: <EventLengkap /> },
     ],
   },
   {
