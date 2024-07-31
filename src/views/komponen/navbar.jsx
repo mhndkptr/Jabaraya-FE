@@ -13,43 +13,43 @@ export default function Navbar() {
         <div className="space-x-4 ml-auto text-center hidden lg:flex ">
           <a
             href="/"
-            className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-300"
+            className="text-white px-3 py-2 rounded-md text-[17px] font-medium "
           >
             Beranda
           </a>
           <a
             href="#BuatRencana"
-            className="text-gray-200 px-3 py-2 rounded-md text-sm font-light hover:bg-gray-300"
+            className="text-gray-200 px-3 py-2 rounded-md text-[17px] font-light "
           >
             Buat Rencana
           </a>
           <a
             href="#Berita"
-            className="text-gray-200 px-3 py-2 rounded-md text-sm font-light hover:bg-gray-300"
+            className="text-gray-200 px-3 py-2 rounded-md text-[17px] font-light "
           >
             Berita
           </a>
           <a
             href="#Artikel"
-            className="text-gray-200 px-3 py-2 rounded-md text-sm font-light hover:bg-gray-300"
+            className="text-gray-200 px-3 py-2 rounded-md text-[17px] font-light "
           >
             Artikel
           </a>
           <a
             href="#Event"
-            className="text-gray-200 px-3 py-2 rounded-md text-sm font-light hover:bg-gray-300"
+            className="text-gray-200 px-3 py-2 rounded-md text-[17px] font-light "
           >
             Event
           </a>
           <a
             href="#DaftarBudaya"
-            className="text-gray-200 px-3 py-2 rounded-md text-sm font-light hover:bg-gray-300"
+            className="text-gray-200 px-3 py-2 rounded-md text-[17px] font-light "
           >
             Daftar Budaya
           </a>
           <a
             href="/profile"
-            className="text-gray-200 px-3 py-2 rounded-md text-sm font-light hover:bg-gray-300"
+            className="text-gray-200 px-3 py-2 rounded-md text-[17px] font-light "
           >
             Profile
           </a>
