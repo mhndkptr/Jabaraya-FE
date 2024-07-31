@@ -60,15 +60,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    // element: (
-    //   <ProtectedRoute
-    //     isAllowed={isLoggedIn() && getRole() === "user"}
-    //     role={getRole()}
-    //     isLoggedIn={isLoggedIn()}
-    //   >
-    //     <DefaultLayout />
-    //   </ProtectedRoute>
-    // ),
+    element: (
+      <ProtectedRoute
+        isAllowed={isLoggedIn() && getRole() === "user"}
+        role={getRole()}
+        isLoggedIn={isLoggedIn()}
+      >
+        <DefaultLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "/perjalananfavorite", element: <PerjalananFavorite /> },
       { path: "/profile", element: <Profile /> },
