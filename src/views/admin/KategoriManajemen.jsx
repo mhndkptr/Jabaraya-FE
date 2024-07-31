@@ -3,6 +3,7 @@ import { SidebarAdmin } from "./partials/SidebarAdmin";
 import { Table } from "flowbite-react";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
+import Swal from 'sweetalert2';
 
 export default function KategoriManajemen() {
     const [categorys, setKategori] = useState([]);
@@ -32,6 +33,12 @@ export default function KategoriManajemen() {
             .then(response => {
                 setKategori([...categorys, response.data]);
                 setForm({ name: ""});
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data berhasil ditambahkan!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
             })
             .catch(error => console.error("Error adding categorys:", error));
     };
@@ -62,17 +69,40 @@ export default function KategoriManajemen() {
             setKategori(categorys.map(categorys => categorys.id === editCategorys.id ? response.data : categorys));
             setEditCategorys(null); // Clear edit state
             setForm({ name: ""});
+            Swal.fire({
+                title: 'Success!',
+                text: 'Data berhasil diubah!',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            })
         })
         .catch(error => console.error("Error updating categorys:", error));
     };
 
     // Fungsi Delete Data
     const handleDelete = (id) => {
-        Axios.delete(`http://127.0.0.1:8000/api/categorys/${id}`)
-            .then(() => {
-                setKategori(categorys.filter(categorys => categorys.id !== id));
-            })
-            .catch(error => console.error("Error deleting categorys:", error));
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`http://127.0.0.1:8000/api/categorys/${id}`)
+                    .then(() => {
+                        setKategori(categorys.filter(categorys => categorys.id !== id));
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
+            .catch(error => console.error("Error deleting article:", error));
+            }
+        });
     };
 
     const handleSearchChange = (e) => {
