@@ -66,7 +66,7 @@ export default function Beranda() {
               <img src={emoji} alt="" className="w-[70px] h-[80px] " />
               <button className="p-3 bg-white rounded-xl mt-5 px-4 ">
                 <p className="text-xl text-[#1C426B] ">
-                  Buat rencana Healing disini
+                  Buat rencana Healing disinii
                 </p>
               </button>
             </div>
