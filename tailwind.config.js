@@ -28,12 +28,10 @@ export default {
         Urbanist: ["Urbanist", "sans-serif"],
       },
       backgroundImage: {
-        'loginRegister-gradient': 'linear-gradient(to bottom, #3C90E8, #1D1DA0)',
+        "loginRegister-gradient":
+          "linear-gradient(to bottom, #3C90E8, #1D1DA0)",
       },
     },
   },
-  plugins: [
-    require('tailwindcss-gradients'),
-    flowbite.plugin(),
-  ],
+  plugins: [require("tailwindcss-gradients"), flowbite.plugin()],
 };

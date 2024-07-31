@@ -1,0 +1,5 @@
+.scrollbar {
+  /* Menampilkan scrollbar jika konten melebihi ukuran elemen */
+  /* Firefox */
+  scrollbar-color: transparent transparent; /* Internet Explorer 10+ */
+}
