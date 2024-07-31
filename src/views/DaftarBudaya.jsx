@@ -20,164 +20,152 @@ export default function DaftarBudaya() {
             <p className="  text-body-bold">Berita Budaya Seru</p>
           </div>
         </div>
-        <section
-          id="DaftarBudaya"
-          className="w-full h-auto bg-white flex justify-center items-center  "
-        >
-          <div className="flex flex-col justify-center items-center mt-10">
-            {/* CONTAINER ARTIKEL */}
-            {/* Container 1 */}
-            <div className="mt-6 w-full h-auto flex justify-center items-center">
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {/*membuat responsive */}
-                {/* Container 1 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Tari di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 2 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Wayang di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 3 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Kuliner di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 4 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Musik di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 5 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Alat Musik di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 6 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Senjata Adat di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 7 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Rumah Adat di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-                {/* Container 8 */}
-                <div className="bg-slate-50 shadow-md rounded-lg h-[360px] w-full p-2 ">
-                  <div>
-                    <h1 className="font-semibold text-xl p-1 ">
-                      Museum di Bandung
-                    </h1>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={berita1}
-                      alt=""
-                      className="object-cover rounded-md"
-                    />
-                    <button className="w-full rounded-md shadow-md px-2 py-3 flex justify-center items-center mt-4">
-                      <p className="font-medium">Lihat lebih banyak</p>
-                    </button>
-                  </div>
-                </div>
-              </div>
+        <div className="h-auto mt-5 flex justify-center items-center flex-wrap gap-4 md:gap-6 lg:gap-8">
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Tari di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
             </div>
           </div>
-        </section>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Wayang di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Kuliner di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Musik di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Alat Musik di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Senjata di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Rumah Adat di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+          <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
+              Museum di Bandung
+            </h1>
+
+            <div className="flex flex-col justify-center items-center p-2 w-full">
+              <img
+                src={berita1}
+                alt=""
+                className="object-cover rounded-md md:w-[317px] md:h-[230px]"
+              />
+              <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <p className="font-medium text-[7.5px] md:text-[17px] ">
+                  Lihat lebih banyak
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );

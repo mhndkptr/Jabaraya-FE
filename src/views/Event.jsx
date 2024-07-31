@@ -1,7 +1,8 @@
 import React from "react";
 import berita1 from "../assets/img-beranda/berita1.png";
 import logo from "../assets/img-beranda/JABARAYA.png";
-
+import kelinci from "../assets/img-beranda/kelinci.png";
+import date from "../assets/img-beranda/date.png";
 export default function Event() {
   return (
     <section className="min-h-screen  mb-0 md:mb-10">
@@ -13,10 +14,28 @@ export default function Event() {
           <img src={logo} alt="" />
         </div>
       </div>
-      <div className="mx-44 relative mt-5 hidden lg:block">
-        <div className="flex  items-center gap-2 relative after:after-content after:min-w-[80%] after:h-[1px] after:left-[16.5%] after:absolute after:bg-[#D9D9D9]">
-          <div className="w-3 h-3 bg-[#D9D9D9] rounded-full"></div>
-          <p className="  text-body-bold">Berita Budaya Seru</p>
+      {/* untuk Date */}
+      <div className=" xl:mx-28 grid-cols-[1fr,1fr] md:grid mt-8 mb-5 items-center justify-center hidden p-2 ">
+        <div className="w-full flex flex-col justify-center items-center">
+          <h1 className="lg:text-[48px] font-semibold">
+            Cek Event Seru Bulan ini!
+          </h1>
+          <h1 className="lg:text-[20px] font-semibold">
+            Lihat info terbaru event seru di Bandung!
+          </h1>
+          <img
+            src={kelinci}
+            alt=""
+            className=" w-[270px] h-[300px] lg:w-[300px] lg:h-[329px] "
+          />
+        </div>
+        {/* UNTUK DATE */}
+        <div className="w-full flex justify-center items-center">
+          <img
+            src={date}
+            alt=""
+            className="w-[350px] h-[400px] lg:w-[430px] lg:h-[466px]"
+          />
         </div>
       </div>
       <div
@@ -24,7 +43,7 @@ export default function Event() {
         className=" h-auto  flex flex-wrap md:mx-10  lg:mx-20 justify-center items-center mt-3"
       >
         <div className="flex flex-wrap justify-center items-start gap-5">
-          {/* CONTAINER ARTIKEL */}
+          {/* CONTAINER  */}
           <div className="flex flex-wrap justify-center items-start gap-5 px-6 md:px-1  mb-5 ">
             <div className=" bg-slate-50 shadow-md gap-2 items-center rounded-lg flex lg:block lg:h-[400px] h-auto w-full  lg:w-[310px] p-2">
               <img

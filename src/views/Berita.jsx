@@ -8,7 +8,7 @@ export default function Berita() {
     <>
       <section className="min-h-screen  mb-0 md:mb-10">
         <h2 className="text-4xl text-center mt-16 font-semibold">
-          Berita seputar Bandung
+          Berita terkini di Bandung Raya
         </h2>
         <div class="h-10 text-center w-full flex justify-center items-center relative mt-3">
           <div class="relative w-8 h-8  bg-white  after:after-content after:w-[165px] after:h-[1px] after:bg-[#D9D9D9] after:absolute after:top-[50%] after:left-12 before:after-content before:w-[165px] before:h-[1px] before:bg-[#D9D9D9] before:absolute before:top-[50%] before:right-12">
@@ -18,7 +18,7 @@ export default function Berita() {
         <div className="mx-44 relative mt-5 hidden lg:block">
           <div className="flex  items-center gap-2 relative after:after-content after:min-w-[80%] after:h-[1px] after:left-[16.5%] after:absolute after:bg-[#D9D9D9]">
             <div className="w-3 h-3 bg-[#D9D9D9] rounded-full"></div>
-            <p className="  text-body-bold">Berita Budaya Seru</p>
+            <p className="  text-body-bold"> Berita seputar Bandung</p>
           </div>
         </div>
         <div
