@@ -5,11 +5,10 @@ import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // for selectable
-import { Table } from "flowbite-react";
-
+import Swal from 'sweetalert2';
 export default function EventManajemen() {
     const [kategori, setKategori] = useState([]);
-    const [cultures, setEvent] = useState([]);
+    const [event, setEvent] = useState([]);
     const [form, setForm] = useState({
         name: "",
         thumbnail: "",
@@ -38,7 +37,7 @@ export default function EventManajemen() {
             .then(response => {
                 setEvent(response.data);
             })
-            .catch(error => console.error("Error fetching cultures:", error));
+            .catch(error => console.error("Error fetching event:", error));
     }, []);
 
     const handleInputChange = (e) => {
@@ -67,24 +66,30 @@ export default function EventManajemen() {
 
         Axios.post("http://127.0.0.1:8000/api/events", formData)
             .then(response => {
-                setEvent([...cultures, response.data]);
+                setEvent([...event, response.data]);
                 setForm({ name: "", start_date: "", end_date: "", location: "", content: "", link: "", thumbnail: "", category_id: "" });
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data berhasil ditambahkan!',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                });
             })
-            .catch(error => console.error("Error adding cultures:", error));
+            .catch(error => console.error("Error adding event:", error));
     };
 
-    const handleEdit = (cultures) => {
-        console.log("Editing cultures:", cultures);
-        setEditEvent(cultures);
+    const handleEdit = (event) => {
+        console.log("Editing event:", event);
+        setEditEvent(event);
         setForm({
-            name: cultures.name,
-            content: cultures.content,
-            start_date: cultures.start_date,
-            end_date: cultures.end_date,
-            location: cultures.location,
-            link: cultures.link,
+            name: event.name,
+            content: event.content,
+            start_date: event.start_date,
+            end_date: event.end_date,
+            location: event.location,
+            link: event.link,
             thumbnail: "",
-            category_id: cultures.category_id,
+            category_id: event.category_id,
         });
     };
 
@@ -111,32 +116,54 @@ export default function EventManajemen() {
             }
         })
             .then(response => {
-                console.log("Updated cultures:", response.data);
-                setEvent(cultures.map(culture => culture.id === EditEvent.id ? response.data : culture));
+                console.log("Updated event:", response.data);
+                setEvent(event.map(events => events.id === EditEvent.id ? response.data : events));
                 setEditEvent(null); // Clear edit state
                 setForm({ name: "", content: "", thumbnail: "", category_id: "" });
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data berhasil diupdate!',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                });
             })
-            .catch(error => console.error("Error updating cultures:", error));
+            .catch(error => console.error("Error updating event:", error));
     };
-
     const handleDelete = (id) => {
-        Axios.delete(`http://127.0.0.1:8000/api/events/${id}`)
-            .then(() => {
-                setEvent(cultures.filter(culture => culture.id !== id));
-            })
-            .catch(error => console.error("Error deleting cultures:", error));
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`http://127.0.0.1:8000/api/events/${id}`)
+                    .then(() => {
+                        setEvent(event.filter(events => events.id !== id));
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
+            .catch(error => console.error("Error deleting article:", error));
+            }
+        });
     };
 
     const handleEventClick = (info) => {
-        const eventData = cultures.find(culture => culture.name === info.event.title);
+        const eventData = event.find(events => events.name === info.event.title);
         setSelectedEvent(eventData);
         setModalVisible(true);
     };
 
-    const events = cultures.map(culture => ({
-        title: culture.name,
-        start: culture.start_date,
-        end: culture.end_date
+    const events = event.map(events => ({
+        title: events.name,
+        start: events.start_date,
+        end: events.end_date
     }));
 
     const closeModal = () => {
@@ -153,7 +180,7 @@ export default function EventManajemen() {
                 <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 dark:ring-gray-700">
                     <div>
                         <h1 className="text-sm text-gray-900 dark:text-gray-100">Data Event Yang Dipublish</h1>
-                        <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{cultures.length} Event</p>
+                        <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{event.length} Event</p>
                         <span className="mt-2 text-gray-700 dark:text-gray-300">Sudah Dipublish</span>
                     </div>
                 </div>
