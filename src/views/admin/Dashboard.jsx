@@ -74,7 +74,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="">
+    <div>
       <NavbarAdmin />
       <SidebarAdmin />
       <div className="p-4 mt-10 sm:ml-64">
@@ -108,8 +108,35 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="mt-10">
-          <Line data={chartData} options={chartOptions} />
+        <div className="flex flex-col lg:flex-row mt-10 gap-2">
+          <div className="w-full">
+            <Line data={chartData} options={chartOptions} />
+          </div>
+          <div className="w-full">
+            <h1 className="text-2xl font-semibold mb-2">Event Hari Ini</h1>
+            <ul className="list-none border-b-2">
+              {events.map(event => (
+                <li key={event.id} className="media flex mb-4">
+                  <img 
+                    className="mr-3 rounded-full w-12 h-12" 
+                    src={`http://127.0.0.1:8000/storage/${event.thumbnail}`} 
+                    alt={event.name} 
+                  />
+                  <div className="media-body">
+                    <div className="float-right text-blue-500">{new Date(event.start_date).toLocaleString()}</div>
+                    <div className="media-title font-semibold">{event.name}</div>
+                    <span className="text-sm text-gray-500">{event.content}</span>
+                    <br></br>
+                    {event.location && (
+                      <a href={event.location} className="text-sm text-gray-400" target="_blank" rel="noopener noreferrer">
+                        {event.location}
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
