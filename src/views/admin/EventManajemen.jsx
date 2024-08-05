@@ -6,6 +6,9 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // for selectable
 import Swal from 'sweetalert2';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 export default function EventManajemen() {
     const [kategori, setKategori] = useState([]);
     const [event, setEvent] = useState([]);
@@ -229,7 +232,35 @@ export default function EventManajemen() {
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Content</label>
-                                            <textarea id="content" name="content" value={form.content} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter content" />
+                                            <CKEditor
+                                        editor={ClassicEditor}
+                                        data={form.content}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            setForm({ ...form, content: data });
+                                        }}
+                                        config={{
+                                            ckfinder: {
+                                                uploadUrl: 'http://127.0.0.1:8000/api/events/upload-image',
+                                            },
+                                            toolbar: [
+                                                "heading",
+                                                "|",
+                                                "bold",
+                                                "italic",
+                                                "link",
+                                                "bulletedList",
+                                                "numberedList",
+                                                "|",
+                                                "imageInsert",
+                                                "blockQuote",
+                                                "insertTable",
+                                                "mediaEmbed",
+                                                "undo",
+                                                "redo",
+                                            ],
+                                        }}
+                                    />
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Link</label>
@@ -279,7 +310,35 @@ export default function EventManajemen() {
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Content</label>
-                                    <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>                    
+                                    <CKEditor
+                                            editor={ClassicEditor}
+                                            data={form.content}
+                                            onChange={(event, editor) => {
+                                                const data = editor.getData();
+                                                setForm({ ...form, content: data });
+                                            }}
+                                            config={{
+                                                ckfinder: {
+                                                    uploadUrl: 'http://127.0.0.1:8000/api/events/upload-image',
+                                                },
+                                                toolbar: [
+                                                    "heading",
+                                                    "|",
+                                                    "bold",
+                                                    "italic",
+                                                    "link",
+                                                    "bulletedList",
+                                                    "numberedList",
+                                                    "|",
+                                                    "imageUpload",
+                                                    "blockQuote",
+                                                    "insertTable",
+                                                    "mediaEmbed",
+                                                    "undo",
+                                                    "redo",
+                                                ],
+                                            }}
+                                        />                         
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Link</label>

@@ -4,6 +4,8 @@ import { Table } from "flowbite-react";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default function CulturelManajemen() {
     const [kategori, setKategori] = useState([]);
@@ -212,7 +214,35 @@ export default function CulturelManajemen() {
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content</label>
-                                    <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={form.content}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            setForm({ ...form, content: data });
+                                        }}
+                                        config={{
+                                            ckfinder: {
+                                                uploadUrl: 'http://127.0.0.1:8000/api/cultures/upload-image',
+                                            },
+                                            toolbar: [
+                                                "heading",
+                                                "|",
+                                                "bold",
+                                                "italic",
+                                                "link",
+                                                "bulletedList",
+                                                "numberedList",
+                                                "|",
+                                                "imageInsert",
+                                                "blockQuote",
+                                                "insertTable",
+                                                "mediaEmbed",
+                                                "undo",
+                                                "redo",
+                                            ],
+                                        }}
+                                    />
                                 </div>
                                 {/* update kategori id */}
                                 <div className="col-span-2">
@@ -261,7 +291,35 @@ export default function CulturelManajemen() {
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content</label>
-                                            <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>                    
+                                            <CKEditor
+                                                editor={ClassicEditor}
+                                                data={form.content}
+                                                onChange={(event, editor) => {
+                                                    const data = editor.getData();
+                                                    setForm({ ...form, content: data });
+                                                }}
+                                                config={{
+                                                    ckfinder: {
+                                                        uploadUrl: 'http://127.0.0.1:8000/api/cultures/upload-image',
+                                                    },
+                                                    toolbar: [
+                                                        "heading",
+                                                        "|",
+                                                        "bold",
+                                                        "italic",
+                                                        "link",
+                                                        "bulletedList",
+                                                        "numberedList",
+                                                        "|",
+                                                        "imageUpload",
+                                                        "blockQuote",
+                                                        "insertTable",
+                                                        "mediaEmbed",
+                                                        "undo",
+                                                        "redo",
+                                                    ],
+                                                }}
+                                            />                         
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
