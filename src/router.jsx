@@ -34,10 +34,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: isLoggedIn() ? (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "user"}
-        role={getRole()}
-      >
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()}>
         <DefaultLayout />
       </ProtectedRoute>
     ) : (
@@ -60,15 +57,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    // element: (
-    //   <ProtectedRoute
-    //     isAllowed={isLoggedIn() && getRole() === "user"}
-    //     role={getRole()}
-    //     isLoggedIn={isLoggedIn()}
-    //   >
-    //     <DefaultLayout />
-    //   </ProtectedRoute>
-    // ),
+    element: (
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()} isLoggedIn={isLoggedIn()}>
+        <DefaultLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "/perjalananfavorite", element: <PerjalananFavorite /> },
       { path: "/profile", element: <Profile /> },
@@ -76,13 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={!isLoggedIn()}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      />
-    ),
+    element: <ProtectedRoute isAllowed={!isLoggedIn()} role={getRole()} isLoggedIn={isLoggedIn()} />,
     children: [
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
@@ -90,13 +77,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "admin"}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      />
-    ),
+    element: <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "admin"} role={getRole()} isLoggedIn={isLoggedIn()} />,
     children: [
       {
         path: "/",

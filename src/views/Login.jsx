@@ -1,14 +1,15 @@
 import React, { useRef, useState } from "react";
 import axiosClient from "../api/axios/axios";
+import kelinci from "../assets/img-beranda/kelinci.png";
 
 export default function Login() {
-  const [errors, setErrors] = useState();
-
   const emailRef = useRef();
   const passwordRef = useRef();
+  const [isLoading, setIsloading] = useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setIsloading(true);
     const payload = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -22,151 +23,107 @@ export default function Login() {
       })
       .catch((err) => {
         const response = err.response;
-        if (response.data.statusCode === 403) {
-          setErrors(
-            response.data.errors ? response.data.errors : response.data.message
-          );
+        if (response.data.statusCode === 422) {
+          window.alert(response.data.message);
         } else {
           window.location.replace("/login");
         }
+      })
+      .finally(() => {
+        setIsloading(false);
       });
   };
 
   const handleGoogleLogin = (event) => {
     event.preventDefault();
-    window.location.replace(
-      import.meta.env.VITE_API_BASE_URL + "/api/login/google"
-    );
+    window.location.replace(import.meta.env.VITE_API_BASE_URL + "/api/login/google");
   };
 
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.replace(
-      import.meta.env.VITE_API_BASE_URL + "/api/login/facebook"
-    );
+    window.location.replace(import.meta.env.VITE_API_BASE_URL + "/api/login/facebook");
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center ">
-      <div className="grid  lg:grid-cols-2 w-full   ">
-        <div className=" hidden lg:flex flex-col items-center justify-center bg-white py-10 px-5 md:py-24">
-          <div className="max-w-lg w-full">
-            <div className="w-full rounded overflow-hidden bg-white shadow-lg p-6">
-              <a href="#">
-                <img
-                  src="https://picsum.photos/seed/picsum/200/300"
-                  alt="Article"
-                  className="w-full h-64 object-cover"
-                />
-              </a>
-              <div className="p-5">
-                <a href="#">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Noteworthy technology acquisitions 2021
-                  </h5>
-                </a>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Here are the biggest enterprise technology acquisitions of
-                  2021 so far, in reverse chronological order.
-                </p>
-                <a
-                  href="#"
-                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Read more
-                  <svg
-                    className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col items-center   min-h-screen   justify-center bg-loginRegister-gradient py-10 px-7 md:py-24">
-          <div className="max-w-lg w-full bg-white border rounded-xl p-5 md:p-10">
-            <h1 className="text-xl font-bold mb-5 md:text-5xl text-center ">
-              Selamat datang! Silahkan masuk
-            </h1>
-            <form
-              className="mb-4"
-              name="wf-form-password"
-              method="post"
-              onSubmit={handleLogin}
-            >
-              <div className="relative mb-4">
-                <label className="block text-left">Email</label>
-                <input
-                  ref={emailRef}
-                  type="email"
-                  className="block w-full border rounded-xl bg-white px-3 py-2 text-sm text-black"
-                  name="email"
-                  placeholder="Masukan Email Kamu"
-                  required
-                />
-              </div>
-              <div className="relative mb-4">
-                <label className="block text-left">Password</label>
-                <input
-                  ref={passwordRef}
-                  type="password"
-                  className="block w-full border rounded-xl bg-white px-3 py-2 text-sm text-black"
-                  placeholder="Masukan Password"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="block w-full bg-jabarayaColors-700 text-white font-bold text-sm py-3 rounded-xl"
-              >
-                Login
-              </button>
-            </form>
-            <p className="text-center">atau</p>
-            <div className="mt-7 flex flex-col gap-2">
-              <button
-                onClick={handleGoogleLogin}
-                className="mb-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <img
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  alt="Google"
-                  className="h-[18px] w-[18px]"
-                />
-                Continue with Google
-              </button>
-              <button
-                onClick={handleFacebookLogin}
-                className="mb-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <img
-                  src="https://www.svgrepo.com/show/448224/facebook.svg"
-                  alt="facebook"
-                  className="h-[18px] w-[18px]"
-                />
-                Continue with Facebook
-              </button>
-            </div>
-            <p className="text-sm text-slate-500 mt-4">
-              Tidak Punya Akun?{" "}
-              <a href="Register" className="text-sm font-bold text-black">
-                Daftar disini
-              </a>
-            </p>
-          </div>
-        </div>
+    <div className="flex w-screen min-h-screen">
+      <div className="w-2/4 justify-center items-center flex-col hidden md:flex">
+        <h1 className="header5-bold">Jabaraya</h1>
+        <img src={kelinci} alt="Maskot jabaraya" className="-mr-11 xl:w-80 lg:w-72 md:w-64" />
+        <h4 className="header5-bold">Teman Perjalanan Bandungmu!</h4>
       </div>
-    </section>
+      <div className="md:w-2/4 w-full bg-gradient-to-b from-[#3C90E8] to-[#1D1DA0] flex justify-center items-center md:p-0 px-10 sm:px-16">
+        <form method="post" onSubmit={(e) => handleLogin(e)} className="bg-white rounded-[20px] p-8 w-full xl:mx-36 lg:mx-16 md:mx-10">
+          <h1 className="titel2-bold text-center mb-3">Selamat datang! Silahkan masuk</h1>
+          <div className="flex flex-col md:gap-5 gap-3">
+            <div className="flex flex-col">
+              <label htmlFor="email" className="titel2 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                ref={emailRef}
+                placeholder="Masukkan email"
+                className="outline-none ring-0 text-caption border-none shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] rounded-2xl px-4 py-3 md:py-4 placeholder:text-[#AEAEAE] bg-white"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="password" className="titel2 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                ref={passwordRef}
+                name="password"
+                placeholder="Masukkan password"
+                className="outline-none ring-0 text-titel border-none font-sans placeholder:font-Urbanist shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] rounded-2xl px-4 py-2.5 md:py-4 placeholder:text-[#AEAEAE] placeholder:text-caption bg-white md:tracking-wide tracking-normal placeholder:tracking-normal"
+                required
+              />
+            </div>
+
+            <div className="w-full flex justify-end">
+              <p className="text-center text-caption">
+                Lupa password?
+                <a href={"/login"} className="text-caption-bold ml-1 hover:underline">
+                  Klik disini
+                </a>
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              className={`text-body-bold bg-jabarayaColors-700 text-white py-3 md:py-4 rounded-2xl transition-all flex justify-center items-center ${isLoading ? "bg-jabarayaColors-800" : "hover:bg-jabarayaColors-800"}`}
+              disabled={isLoading}
+            >
+              {isLoading ? <div className="border-gray-300 lg:h-6 lg:w-6 w-4 h-4 animate-spin rounded-full border-2 border-t-white" /> : "Masuk"}
+            </button>
+          </div>
+
+          <h3 className="text-center text-caption my-5">Atau</h3>
+
+          <div className="flex flex-col mb-3">
+            <button type="button" onClick={(e) => handleGoogleLogin(e)} className="text-body py-3 md:py-4 rounded-2xl mb-3 flex justify-center items-center gap-3 shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] hover:bg-slate-50 transition-all">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="lg:h-[25px] lg:w-[25px] h-[20px] w-[20px]" />
+              Masuk dengan Google
+            </button>
+            <button type="button" onClick={(e) => handleFacebookLogin(e)} className="text-body py-3 md:py-4 rounded-2xl mb-3 flex justify-center items-center gap-3 shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] hover:bg-slate-50 transition-all">
+              <img src="https://www.svgrepo.com/show/448224/facebook.svg" alt="facebook" className="lg:h-[25px] lg:w-[25px] h-[20px] w-[20px]" />
+              Masuk dengan Facebook
+            </button>
+          </div>
+
+          <p className="text-center text-caption">
+            Tidak punya akun?
+            <a href={"/register"} className="text-caption-bold ml-1 hover:underline">
+              Buat akun disini
+            </a>
+          </p>
+        </form>
+      </div>
+    </div>
   );
 }
