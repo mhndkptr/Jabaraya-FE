@@ -54,7 +54,7 @@ export default function Login() {
       <div className="md:w-2/4 w-full bg-gradient-to-b from-[#3C90E8] to-[#1D1DA0] flex justify-center items-center md:p-0 px-10 sm:px-16">
         <form method="post" onSubmit={(e) => handleLogin(e)} className="bg-white rounded-[20px] p-8 w-full xl:mx-36 lg:mx-16 md:mx-10">
           <h1 className="titel2-bold text-center mb-3">Selamat datang! Silahkan masuk</h1>
-          <div className="flex flex-col md:gap-5 gap-3">
+          <div className="flex flex-col md:gap-4 gap-3">
             <div className="flex flex-col">
               <label htmlFor="email" className="titel2 mb-1">
                 Email
@@ -65,7 +65,7 @@ export default function Login() {
                 name="email"
                 ref={emailRef}
                 placeholder="Masukkan email"
-                className="outline-none ring-0 text-caption border-none shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] rounded-2xl px-4 py-3 md:py-4 placeholder:text-[#AEAEAE] bg-white"
+                className="outline-none ring-0 text-caption border-none jbDropShadow rounded-2xl px-4 py-3 md:py-4 placeholder:text-[#AEAEAE] bg-white"
                 required
               />
             </div>
@@ -80,7 +80,7 @@ export default function Login() {
                 ref={passwordRef}
                 name="password"
                 placeholder="Masukkan password"
-                className="outline-none ring-0 text-titel border-none font-sans placeholder:font-Urbanist shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] rounded-2xl px-4 py-2.5 md:py-4 placeholder:text-[#AEAEAE] placeholder:text-caption bg-white md:tracking-wide tracking-normal placeholder:tracking-normal"
+                className="outline-none ring-0 text-titel border-none font-sans placeholder:font-Urbanist jbDropShadow rounded-2xl px-4 py-2 md:py-3.5 placeholder:text-[#AEAEAE] placeholder:text-caption bg-white md:tracking-wide tracking-normal placeholder:tracking-normal"
                 required
               />
             </div>
@@ -106,11 +106,11 @@ export default function Login() {
           <h3 className="text-center text-caption my-5">Atau</h3>
 
           <div className="flex flex-col mb-3">
-            <button type="button" onClick={(e) => handleGoogleLogin(e)} className="text-body py-3 md:py-4 rounded-2xl mb-3 flex justify-center items-center gap-3 shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] hover:bg-slate-50 transition-all">
+            <button type="button" onClick={(e) => handleGoogleLogin(e)} className="text-body py-3 md:py-4 rounded-2xl mb-3 flex justify-center items-center gap-3 jbDropShadow hover:bg-slate-50 transition-all">
               <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="lg:h-[25px] lg:w-[25px] h-[20px] w-[20px]" />
               Masuk dengan Google
             </button>
-            <button type="button" onClick={(e) => handleFacebookLogin(e)} className="text-body py-3 md:py-4 rounded-2xl mb-3 flex justify-center items-center gap-3 shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)] hover:bg-slate-50 transition-all">
+            <button type="button" onClick={(e) => handleFacebookLogin(e)} className="text-body py-3 md:py-4 rounded-2xl mb-3 flex justify-center items-center gap-3 jbDropShadow hover:bg-slate-50 transition-all">
               <img src="https://www.svgrepo.com/show/448224/facebook.svg" alt="facebook" className="lg:h-[25px] lg:w-[25px] h-[20px] w-[20px]" />
               Masuk dengan Facebook
             </button>
