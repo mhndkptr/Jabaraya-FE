@@ -2,6 +2,14 @@ import axios from "axios";
 
 const axiosClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json, multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Credentials": "true",
+  },
 });
 
 axiosClient.interceptors.request.use((config) => {

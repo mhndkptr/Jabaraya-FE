@@ -37,8 +37,8 @@ export default function BeritaLengkap() {
             className=" border border-black rounded-lg md:w-[350px] md:h-[300px]"
           />
         </div>
-        <article className="mt-20 font-medium w-auto">
-          <p className="mb-5 text-justify ">
+        <article className="mt-20 font-medium w-full px-3 ">
+          <p className="mb-5 text-justify  text-[12px] md:text-[1rem]">
             TRIBUNJABAR.ID, BANDUNG - Isak tangis iringi pemakaman Yusran
             Permana di TPU Nagrog, Ujungberung, Kota Bandung pada Selasa
             (2/7/2024). Yusran Pare, sapaan akrabnya meninggal dunia saat
@@ -47,10 +47,9 @@ export default function BeritaLengkap() {
             menuju Sumedang. Artikel ini telah tayang di TribunJabar.id dengan
             judul Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
             Meninggal Dunia, Dikebumikan di TPU
-            Nagrog, https://jabar.tribunnews.com/2024/07/02/dunia-jurnalistik-berduka-wartawan-senior-yusran-pare-meninggal-dunia-dikebumikan-di-tpu-nagrog.Penulis:
-            Nappisah | Editor: Januar Pribadi Hamel
+            Nagrog, https://jabar.tribunnews.com/2024/07/0istik
           </p>
-          <p className="mb-5 text-justify ">
+          <p className="mb-5 text-justify  text-[12px] md:text-[1rem]">
             TRIBUNJABAR.ID, BANDUNG - Isak tangis iringi pemakaman Yusran
             Permana di TPU Nagrog, Ujungberung, Kota Bandung pada Selasa
             (2/7/2024). Yusran Pare, sapaan akrabnya meninggal dunia saat
@@ -58,11 +57,9 @@ export default function BeritaLengkap() {
             dalam paguyuban goes sejak pagi hari sudah berangkat dari Bandung
             menuju Sumedang. Artikel ini telah tayang di TribunJabar.id dengan
             judul Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-            Meninggal Dunia, Dikebumikan di TPU
-            Nagrog, https://jabar.tribunnews.com/2024/07/02/dunia-jurnalistik-berduka-wartawan-senior-yusran-pare-meninggal-dunia-dikebumikan-di-tpu-nagrog.Penulis:
-            Nappisah | Editor: Januar Pribadi Hamel
+            Meninggal Dunia, Dikebumikan di TPU Nagrog, https://jabar.tri
           </p>
-          <p className="mb-5 text-justify ">
+          <p className="mb-5 text-justify text-[12px] md:text-[1rem] ">
             TRIBUNJABAR.ID, BANDUNG - Isak tangis iringi pemakaman Yusran
             Permana di TPU Nagrog, Ujungberung, Kota Bandung pada Selasa
             (2/7/2024). Yusran Pare, sapaan akrabnya meninggal dunia saat
@@ -70,9 +67,7 @@ export default function BeritaLengkap() {
             dalam paguyuban goes sejak pagi hari sudah berangkat dari Bandung
             menuju Sumedang. Artikel ini telah tayang di TribunJabar.id dengan
             judul Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-            Meninggal Dunia, Dikebumikan di TPU
-            Nagrog, https://jabar.tribunnews.com/2024/07/02/dunia-jurnalistik-berduka-wartawan-senior-yusran-pare-meninggal-dunia-dikebumikan-di-tpu-nagrog.Penulis:
-            Nappisah | Editor: Januar Pribadi Hamel
+            Meninggal Dunia, Dikebumikan di TPU Nagrog, https:/
           </p>
 
           <div className="mt-10">

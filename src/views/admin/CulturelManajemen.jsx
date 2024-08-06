@@ -3,6 +3,9 @@ import { SidebarAdmin } from "./partials/SidebarAdmin";
 import { Table } from "flowbite-react";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
+import Swal from 'sweetalert2';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default function CulturelManajemen() {
     const [kategori, setKategori] = useState([]);
@@ -56,6 +59,12 @@ export default function CulturelManajemen() {
             .then(response => {
                 setBudaya([...cultures, response.data]);
                 setForm({ title: "", content: "", thumbnail: "", link: "",category_id: "" });
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data berhasil ditambahkan!',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                })
             })
             .catch(error => console.error("Error adding cultures:", error));
     };
@@ -95,17 +104,40 @@ export default function CulturelManajemen() {
             setBudaya(cultures.map(cultures => cultures.id === EditBudaya.id ? response.data : cultures));
             setEditBudaya(null); // Clear edit state
             setForm({ title: "", content: "", thumbnail: "", category_id: ""});
+            Swal.fire({
+                title: 'Success!',
+                text: 'Data berhasil diupdate!',
+                icon: 'success',
+                confirmButtonText: 'Cool'
+            })
         })
         .catch(error => console.error("Error updating cultures:", error));
     };
 
     // Fungsi Delete Data
     const handleDelete = (id) => {
-        Axios.delete(`http://127.0.0.1:8000/api/cultures/${id}`)
-            .then(() => {
-                setBudaya(cultures.filter(cultures => cultures.id !== id));
-            })
-            .catch(error => console.error("Error deleting cultures:", error));
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`http://127.0.0.1:8000/api/cultures/${id}`)
+                    .then(() => {
+                        setBudaya(cultures.filter(cultures => cultures.id !== id));
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
+            .catch(error => console.error("Error deleting article:", error));
+            }
+        });
     };
 
     const handleSearchChange = (e) => {
@@ -182,7 +214,35 @@ export default function CulturelManajemen() {
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content</label>
-                                    <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={form.content}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            setForm({ ...form, content: data });
+                                        }}
+                                        config={{
+                                            ckfinder: {
+                                                uploadUrl: 'http://127.0.0.1:8000/api/cultures/upload-image',
+                                            },
+                                            toolbar: [
+                                                "heading",
+                                                "|",
+                                                "bold",
+                                                "italic",
+                                                "link",
+                                                "bulletedList",
+                                                "numberedList",
+                                                "|",
+                                                "imageInsert",
+                                                "blockQuote",
+                                                "insertTable",
+                                                "mediaEmbed",
+                                                "undo",
+                                                "redo",
+                                            ],
+                                        }}
+                                    />
                                 </div>
                                 {/* update kategori id */}
                                 <div className="col-span-2">
@@ -223,15 +283,43 @@ export default function CulturelManajemen() {
                                     <div className="grid gap-4 mb-4 grid-cols-2">
                                         <div className="col-span-2">
                                             <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                                            <input type="text" id="title" name="title" value={form.title} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter Title"/>
+                                            <input type="text" id="title" name="title" value={form.title} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter Title" required/>
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="thumbnail" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thumbnails</label>
-                                            <input type="file" id="thumbnail" name="thumbnail" onChange={handleFileChange} aria-label="Upload thumbnails" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 shadow-md hover:shadow-lg focus:outline-none focus:bg-white dark:focus:bg-gray-700 transition duration-200 ease-in-out" />
+                                            <input type="file" id="thumbnail" name="thumbnail" onChange={handleFileChange} aria-label="Upload thumbnails" className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 shadow-md hover:shadow-lg focus:outline-none focus:bg-white dark:focus:bg-gray-700 transition duration-200 ease-in-out" required />
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content</label>
-                                            <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>                    
+                                            <CKEditor
+                                                editor={ClassicEditor}
+                                                data={form.content}
+                                                onChange={(event, editor) => {
+                                                    const data = editor.getData();
+                                                    setForm({ ...form, content: data });
+                                                }}
+                                                config={{
+                                                    ckfinder: {
+                                                        uploadUrl: 'http://127.0.0.1:8000/api/cultures/upload-image',
+                                                    },
+                                                    toolbar: [
+                                                        "heading",
+                                                        "|",
+                                                        "bold",
+                                                        "italic",
+                                                        "link",
+                                                        "bulletedList",
+                                                        "numberedList",
+                                                        "|",
+                                                        "imageUpload",
+                                                        "blockQuote",
+                                                        "insertTable",
+                                                        "mediaEmbed",
+                                                        "undo",
+                                                        "redo",
+                                                    ],
+                                                }}
+                                            />                         
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>

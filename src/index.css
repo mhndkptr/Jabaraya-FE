@@ -6,6 +6,10 @@
   html {
     @apply font-Urbanist;
   }
+
+  /* * {
+    @apply border;
+  } */
 }
 
 @layer utilities {
@@ -26,58 +30,62 @@
   }
 
   .header3 {
-    @apply font-Urbanist text-5xl font-normal;
+    @apply font-Urbanist xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl text-xl font-normal;
   }
 
   .header3-bold {
-    @apply font-Urbanist text-5xl font-bold;
+    @apply font-Urbanist xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl text-xl font-bold;
   }
 
   .header4 {
-    @apply font-Urbanist text-[40px] font-normal;
+    @apply font-Urbanist xl:text-4xl lg:text-3xl md:text-2xl sm:text-xl text-lg font-normal;
   }
 
   .header4-bold {
-    @apply font-Urbanist text-[40px] font-bold;
+    @apply font-Urbanist xl:text-4xl lg:text-3xl md:text-2xl sm:text-xl text-lg font-bold;
   }
 
   .header5 {
-    @apply font-Urbanist text-4xl font-normal;
+    @apply font-Urbanist xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-base font-normal;
   }
 
   .header5-bold {
-    @apply font-Urbanist text-4xl font-bold;
+    @apply font-Urbanist xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-base font-bold;
   }
 
   .titel1 {
-    @apply font-Urbanist text-[32px] font-normal;
+    @apply font-Urbanist xl:text-2xl lg:text-xl md:text-lg text-base font-normal;
   }
 
   .titel1-bold {
-    @apply font-Urbanist text-[32px] font-bold;
+    @apply font-Urbanist xl:text-2xl lg:text-xl md:text-lg text-base font-bold;
   }
 
   .titel2 {
-    @apply font-Urbanist text-2xl font-normal;
+    @apply font-Urbanist xl:text-lg lg:text-lg md:text-base text-sm font-normal;
   }
 
   .titel2-bold {
-    @apply font-Urbanist text-2xl font-bold;
+    @apply font-Urbanist xl:text-lg lg:text-lg md:text-base text-sm font-bold;
   }
 
   .text-body {
-    @apply font-Urbanist text-xl font-normal;
+    @apply font-Urbanist lg:text-base md:text-sm text-xs font-normal;
   }
 
   .text-body-bold {
-    @apply font-Urbanist text-xl font-bold;
+    @apply font-Urbanist lg:text-base md:text-sm text-xs font-bold;
   }
 
   .text-caption {
-    @apply font-Urbanist text-base font-normal;
+    @apply font-Urbanist lg:text-sm text-xs font-normal;
   }
 
   .text-caption-bold {
-    @apply font-Urbanist text-base font-bold;
+    @apply font-Urbanist lg:text-sm text-xs font-bold;
+  }
+
+  .jbDropShadow {
+    @apply shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)];
   }
 }

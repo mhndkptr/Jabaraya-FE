@@ -40,12 +40,12 @@ export default function BuatRencana() {
           </div>
           <div className="w-full text-center">
             <button className="p-3 text-white text-center  font-medium text-[1rem] md:hidden bg-jabarayaColors-700 rounded-xl w-[50%]  mt-4 ">
-              Buat Rencana
+              <a href="/perjalananfavorite">Buat Rencana</a>
             </button>
           </div>
         </div>
         <button className="p-5 text-white font-medium text-[1.4rem] hidden md:block bg-jabarayaColors-700 rounded-2xl  w-[50%] mt-4 ">
-          Buat Rencana
+          <a href="/perjalananfavorite">Buat Rencana</a>
         </button>
       </div>
     </section>

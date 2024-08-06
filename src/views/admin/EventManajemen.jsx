@@ -5,11 +5,13 @@ import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // for selectable
-import { Table } from "flowbite-react";
+import Swal from 'sweetalert2';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default function EventManajemen() {
     const [kategori, setKategori] = useState([]);
-    const [cultures, setEvent] = useState([]);
+    const [event, setEvent] = useState([]);
     const [form, setForm] = useState({
         name: "",
         thumbnail: "",
@@ -38,7 +40,7 @@ export default function EventManajemen() {
             .then(response => {
                 setEvent(response.data);
             })
-            .catch(error => console.error("Error fetching cultures:", error));
+            .catch(error => console.error("Error fetching event:", error));
     }, []);
 
     const handleInputChange = (e) => {
@@ -67,24 +69,30 @@ export default function EventManajemen() {
 
         Axios.post("http://127.0.0.1:8000/api/events", formData)
             .then(response => {
-                setEvent([...cultures, response.data]);
+                setEvent([...event, response.data]);
                 setForm({ name: "", start_date: "", end_date: "", location: "", content: "", link: "", thumbnail: "", category_id: "" });
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data berhasil ditambahkan!',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                });
             })
-            .catch(error => console.error("Error adding cultures:", error));
+            .catch(error => console.error("Error adding event:", error));
     };
 
-    const handleEdit = (cultures) => {
-        console.log("Editing cultures:", cultures);
-        setEditEvent(cultures);
+    const handleEdit = (event) => {
+        console.log("Editing event:", event);
+        setEditEvent(event);
         setForm({
-            name: cultures.name,
-            content: cultures.content,
-            start_date: cultures.start_date,
-            end_date: cultures.end_date,
-            location: cultures.location,
-            link: cultures.link,
+            name: event.name,
+            content: event.content,
+            start_date: event.start_date,
+            end_date: event.end_date,
+            location: event.location,
+            link: event.link,
             thumbnail: "",
-            category_id: cultures.category_id,
+            category_id: event.category_id,
         });
     };
 
@@ -111,32 +119,54 @@ export default function EventManajemen() {
             }
         })
             .then(response => {
-                console.log("Updated cultures:", response.data);
-                setEvent(cultures.map(culture => culture.id === EditEvent.id ? response.data : culture));
+                console.log("Updated event:", response.data);
+                setEvent(event.map(events => events.id === EditEvent.id ? response.data : events));
                 setEditEvent(null); // Clear edit state
                 setForm({ name: "", content: "", thumbnail: "", category_id: "" });
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data berhasil diupdate!',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                });
             })
-            .catch(error => console.error("Error updating cultures:", error));
+            .catch(error => console.error("Error updating event:", error));
     };
-
     const handleDelete = (id) => {
-        Axios.delete(`http://127.0.0.1:8000/api/events/${id}`)
-            .then(() => {
-                setEvent(cultures.filter(culture => culture.id !== id));
-            })
-            .catch(error => console.error("Error deleting cultures:", error));
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`http://127.0.0.1:8000/api/events/${id}`)
+                    .then(() => {
+                        setEvent(event.filter(events => events.id !== id));
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
+            .catch(error => console.error("Error deleting article:", error));
+            }
+        });
     };
 
     const handleEventClick = (info) => {
-        const eventData = cultures.find(culture => culture.name === info.event.title);
+        const eventData = event.find(events => events.name === info.event.title);
         setSelectedEvent(eventData);
         setModalVisible(true);
     };
 
-    const events = cultures.map(culture => ({
-        title: culture.name,
-        start: culture.start_date,
-        end: culture.end_date
+    const events = event.map(events => ({
+        title: events.name,
+        start: events.start_date,
+        end: events.end_date
     }));
 
     const closeModal = () => {
@@ -153,7 +183,7 @@ export default function EventManajemen() {
                 <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 dark:ring-gray-700">
                     <div>
                         <h1 className="text-sm text-gray-900 dark:text-gray-100">Data Event Yang Dipublish</h1>
-                        <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{cultures.length} Event</p>
+                        <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">{event.length} Event</p>
                         <span className="mt-2 text-gray-700 dark:text-gray-300">Sudah Dipublish</span>
                     </div>
                 </div>
@@ -202,7 +232,35 @@ export default function EventManajemen() {
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Content</label>
-                                            <textarea id="content" name="content" value={form.content} onChange={handleInputChange} className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter content" />
+                                            <CKEditor
+                                        editor={ClassicEditor}
+                                        data={form.content}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            setForm({ ...form, content: data });
+                                        }}
+                                        config={{
+                                            ckfinder: {
+                                                uploadUrl: 'http://127.0.0.1:8000/api/events/upload-image',
+                                            },
+                                            toolbar: [
+                                                "heading",
+                                                "|",
+                                                "bold",
+                                                "italic",
+                                                "link",
+                                                "bulletedList",
+                                                "numberedList",
+                                                "|",
+                                                "imageInsert",
+                                                "blockQuote",
+                                                "insertTable",
+                                                "mediaEmbed",
+                                                "undo",
+                                                "redo",
+                                            ],
+                                        }}
+                                    />
                                         </div>
                                         <div className="col-span-2">
                                             <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Link</label>
@@ -252,7 +310,35 @@ export default function EventManajemen() {
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Content</label>
-                                    <textarea id="content" name="content" value={form.content} onChange={handleInputChange} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write content right here" required></textarea>                    
+                                    <CKEditor
+                                            editor={ClassicEditor}
+                                            data={form.content}
+                                            onChange={(event, editor) => {
+                                                const data = editor.getData();
+                                                setForm({ ...form, content: data });
+                                            }}
+                                            config={{
+                                                ckfinder: {
+                                                    uploadUrl: 'http://127.0.0.1:8000/api/events/upload-image',
+                                                },
+                                                toolbar: [
+                                                    "heading",
+                                                    "|",
+                                                    "bold",
+                                                    "italic",
+                                                    "link",
+                                                    "bulletedList",
+                                                    "numberedList",
+                                                    "|",
+                                                    "imageUpload",
+                                                    "blockQuote",
+                                                    "insertTable",
+                                                    "mediaEmbed",
+                                                    "undo",
+                                                    "redo",
+                                                ],
+                                            }}
+                                        />                         
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Link</label>

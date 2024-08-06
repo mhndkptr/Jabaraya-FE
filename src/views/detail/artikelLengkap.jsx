@@ -40,9 +40,9 @@ export default function ArtikelLengkap() {
             className=" border border-black rounded-lg md:w-[350px] md:h-[300px]"
           />
         </div>
-        <article className="mt-20 font-medium w-auto">
+        <article className="mt-20 font-medium w-full px-3 ">
           <h2 className="text-xl font-semibold mb-2">Body Judul</h2>
-          <p className="mb-5 text-justify ">
+          <p className="mb-5 text-justify  text-[12px] md:text-[1rem]">
             TRIBUNJABAR.ID, BANDUNG - Isak tangis iringi pemakaman Yusran
             Permana di TPU Nagrog, Ujungberung, Kota Bandung pada Selasa
             (2/7/2024). Yusran Pare, sapaan akrabnya meninggal dunia saat
@@ -50,11 +50,11 @@ export default function ArtikelLengkap() {
             dalam paguyuban goes sejak pagi hari sudah berangkat dari Bandung
             menuju Sumedang. Artikel ini telah tayang di TribunJabar.id dengan
             judul Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-            Meninggal Dunia, Dikebumikan di TPU
-            Nagrog, https://jabar.tribunnews.com/2024/07/02/dunia-jurnalistik-berduka-wartawan-senior-yusran-pare-meninggal-dunia-dikebumikan-di-tpu-nagrog.Penulis:
-            Nappisah | Editor: Januar Pribadi Hamel
+            Meninggal Dunia, Dikebumikan di TPU Nagrog, https:// amet
+            consectetur adipisicing elit. Quas suscipit quo iure cumque quod
+            nihil veritatis placeat consectetur hic magnam.
           </p>
-          <p className="mb-5 text-justify ">
+          <p className="mb-5 text-justify text-[12px] md:text-[1rem] ">
             TRIBUNJABAR.ID, BANDUNG - Isak tangis iringi pemakaman Yusran
             Permana di TPU Nagrog, Ujungberung, Kota Bandung pada Selasa
             (2/7/2024). Yusran Pare, sapaan akrabnya meninggal dunia saat
@@ -62,11 +62,9 @@ export default function ArtikelLengkap() {
             dalam paguyuban goes sejak pagi hari sudah berangkat dari Bandung
             menuju Sumedang. Artikel ini telah tayang di TribunJabar.id dengan
             judul Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-            Meninggal Dunia, Dikebumikan di TPU
-            Nagrog, https://jabar.tribunnews.com/2024/07/02/dunia-jurnalistik-berduka-wartawan-senior-yusran-pare-meninggal-dunia-dikebumikan-di-tpu-nagrog.Penulis:
-            Nappisah | Editor: Januar Pribadi Hamel
+            Meninggal Dunia, Dikebumikan di TPU Nagrog, https://jabar.tribunne
           </p>
-          <p className="mb-5 text-justify ">
+          <p className="mb-5 text-justify text-[12px] md:text-[1rem] ">
             TRIBUNJABAR.ID, BANDUNG - Isak tangis iringi pemakaman Yusran
             Permana di TPU Nagrog, Ujungberung, Kota Bandung pada Selasa
             (2/7/2024). Yusran Pare, sapaan akrabnya meninggal dunia saat
@@ -75,35 +73,34 @@ export default function ArtikelLengkap() {
             menuju Sumedang. Artikel ini telah tayang di TribunJabar.id dengan
             judul Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
             Meninggal Dunia, Dikebumikan di TPU
-            Nagrog, https://jabar.tribunnews.com/2024/07/02/dunia-jurnalistik-berduka-wartawan-senior-yusran-pare-meninggal-dunia-dikebumikan-di-tpu-nagrog.Penulis:
-            Nappisah | Editor: Januar Pribadi Hamel
+            Nagrog, https://jabar.tribunnews.com/
           </p>
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-2">Baca juga:</h2>
             <a
               href=""
-              class="text-blue-500 hover:text-blue-700 border-b-2 border-transparent hover:border-blue-500"
+              class="text-blue-500 hover:text-blue-700 text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
             >
               - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
               Reprehenderit, perspiciatis?
             </a>
             <a
               href=""
-              class="text-blue-500 hover:text-blue-700 border-b-2 border-transparent hover:border-blue-500"
+              class="text-blue-500 hover:text-blue-700 text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
             >
               - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
               Reprehenderit, perspiciatis?
             </a>
             <a
               href=""
-              class="text-blue-500 hover:text-blue-700 border-b-2 border-transparent hover:border-blue-500"
+              class="text-blue-500 hover:text-blue-700  text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
             >
               - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
               Reprehenderit, perspiciatis?
             </a>
             <a
               href=""
-              class="text-blue-500 hover:text-blue-700 border-b-2 border-transparent hover:border-blue-500"
+              class="text-blue-500 hover:text-blue-700 text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
             >
               - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
               Reprehenderit, perspiciatis?
