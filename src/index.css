@@ -84,4 +84,8 @@
   .text-caption-bold {
     @apply font-Urbanist lg:text-sm text-xs font-bold;
   }
+
+  .jbDropShadow {
+    @apply shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)];
+  }
 }
