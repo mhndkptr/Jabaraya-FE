@@ -16,6 +16,7 @@ import NotFound from "./views/NotFound";
 import Dashboard from "./views/admin/Dashboard";
 import BeritaManajemen from "./views/admin/BeritaManajemen";
 import ArtikelManajemen from "./views/admin/ArtikelManajemen";
+import EditPr from "./views/EditPr";
 import EventManajemen from "./views/admin/EventManajemen";
 import CulturelManajemen from "./views/admin/CulturelManajemen";
 import UserManajemen from "./views/admin/UserManajemen";
@@ -34,7 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: isLoggedIn() ? (
-      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()}>
+      <ProtectedRoute
+        isAllowed={isLoggedIn() && getRole() === "user"}
+        role={getRole()}
+      >
         <DefaultLayout />
       </ProtectedRoute>
     ) : (
@@ -53,12 +57,17 @@ const router = createBrowserRouter([
       { path: "/budayalengkap", element: <BudayaLengkap /> },
       { path: "/buatrencana", element: <BuatRencana /> },
       { path: "/eventlengkap", element: <EventLengkap /> },
+      { path: "/EditPr", element: <EditPr /> },
     ],
   },
   {
     path: "/",
     element: (
-      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()} isLoggedIn={isLoggedIn()}>
+      <ProtectedRoute
+        isAllowed={isLoggedIn() && getRole() === "user"}
+        role={getRole()}
+        isLoggedIn={isLoggedIn()}
+      >
         <DefaultLayout />
       </ProtectedRoute>
     ),
@@ -69,7 +78,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <ProtectedRoute isAllowed={!isLoggedIn()} role={getRole()} isLoggedIn={isLoggedIn()} />,
+    element: (
+      <ProtectedRoute
+        isAllowed={!isLoggedIn()}
+        role={getRole()}
+        isLoggedIn={isLoggedIn()}
+      />
+    ),
     children: [
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
@@ -77,7 +92,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "admin"} role={getRole()} isLoggedIn={isLoggedIn()} />,
+    element: (
+      <ProtectedRoute
+        isAllowed={isLoggedIn() && getRole() === "admin"}
+        role={getRole()}
+        isLoggedIn={isLoggedIn()}
+      />
+    ),
     children: [
       {
         path: "/",
