@@ -86,6 +86,6 @@
   }
 
   .jbDropShadow {
-    @apply shadow-[0px_0px_3px_1px_rgba(0,0,0,0.20)];
+    @apply shadow-[0px_0px_3px_1px_rgba(0,0,0,0.15)];
   }
 }
