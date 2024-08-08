@@ -35,10 +35,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: isLoggedIn() ? (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "user"}
-        role={getRole()}
-      >
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()}>
         <DefaultLayout />
       </ProtectedRoute>
     ) : (
@@ -55,7 +52,6 @@ const router = createBrowserRouter([
       { path: "/beritalengkap", element: <BeritaLengkap /> },
       { path: "/artikellengkap", element: <ArtikelLengkap /> },
       { path: "/budayalengkap", element: <BudayaLengkap /> },
-      { path: "/buatrencana", element: <BuatRencana /> },
       { path: "/eventlengkap", element: <EventLengkap /> },
       { path: "/EditPr", element: <EditPr /> },
     ],
@@ -63,28 +59,19 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "user"}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      >
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()} isLoggedIn={isLoggedIn()}>
         <DefaultLayout />
       </ProtectedRoute>
     ),
     children: [
-      { path: "/perjalananfavorite", element: <PerjalananFavorite /> },
+      { path: "/perjalananfavorite/:travelPlanId", element: <PerjalananFavorite /> },
       { path: "/profile", element: <Profile /> },
+      { path: "/buatrencana", element: <BuatRencana /> },
     ],
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={!isLoggedIn()}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      />
-    ),
+    element: <ProtectedRoute isAllowed={!isLoggedIn()} role={getRole()} isLoggedIn={isLoggedIn()} />,
     children: [
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
@@ -92,13 +79,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute
-        isAllowed={isLoggedIn() && getRole() === "admin"}
-        role={getRole()}
-        isLoggedIn={isLoggedIn()}
-      />
-    ),
+    element: <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "admin"} role={getRole()} isLoggedIn={isLoggedIn()} />,
     children: [
       {
         path: "/",

@@ -111,7 +111,7 @@ const Navlinks = ({ isOpen }) => {
         <li className=" p-2 md:p-0 border-b md:border-none border-gray border-opacity-10 flex items-center gap-1">
           <img src={budaya} alt="" className="w-[30px] h-[30p md:hidden" />{" "}
           <a
-            href="/daftarBudaya"
+            href="/daftarbudaya"
             className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition ${
               pathname.startsWith("/daftarbudaya")
                 ? "font-bold"
