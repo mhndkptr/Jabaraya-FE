@@ -111,7 +111,7 @@ export default function BuatRencana() {
       await calculateDistances(placeIds);
     };
 
-    getDistances().then(() => {
+    getDistances().then(async () => {
       const payload = {
         name: travelPlan.name,
         estimation: travelPlan.estimation,
@@ -125,11 +125,11 @@ export default function BuatRencana() {
         endAt: travelPlan.endAt,
       };
 
-      axiosClient
+      await axiosClient
         .post("/travel-plans", payload)
         .then(async (res) => {
           if (res.data && (res.data.statusCode === 201 || res.data.statusCode === 200)) {
-            await travelPlan.destinations.map((destination) => {
+            travelPlan.destinations.map(async (destination, index) => {
               const destinationPayload = {
                 startAt: destination.startAt,
                 endAt: destination.endAt,
@@ -146,27 +146,51 @@ export default function BuatRencana() {
                 locationLng: destination.detailLocation.location.lng,
                 locationLat: destination.detailLocation.location.lat,
               };
-              axiosClient
-                .post(`/travel-plans/${res.data.data.id}/destinations`, destinationPayload)
-                .then((res) => {
-                  if (!(res.data && (res.data.statusCode === 201 || res.data.statusCode === 200))) {
-                    window.alert("Failed to upload destination");
-                  }
-                })
-                .catch((err) => {
-                  console.log(err);
-                  if (err.response && err.response.data && err.response.data.statusCode === 422) {
-                    console.log(err.response.data);
-                    window.alert(err.response.message);
-                  } else {
-                    console.error(err);
-                    window.alert("Failed to create travel plan");
-                  }
-                });
-            });
 
-            window.alert(res.data.message);
-            window.location.replace(`/perjalananfavorite/${res.data.data.id}`);
+              if (index === destinations.length - 1) {
+                await axiosClient
+                  .post(`/travel-plans/${res.data.data.id}/destinations`, destinationPayload)
+                  .then((res) => {
+                    if (!(res.data && (res.data.statusCode === 201 || res.data.statusCode === 200))) {
+                      window.alert("Failed to upload destination");
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    if (err.response && err.response.data && err.response.data.statusCode === 422) {
+                      console.log(err.response.data);
+                      window.alert(err.response.message);
+                    } else {
+                      console.error(err);
+                      window.alert("Failed to create travel plan");
+                    }
+                  })
+                  .finally(() => {
+                    setIsLoading(false);
+                    window.location.replace(`/perjalananfavorite/${res.data.data.id}`);
+                  });
+              } else {
+                await axiosClient
+                  .post(`/travel-plans/${res.data.data.id}/destinations`, destinationPayload)
+                  .then((res) => {
+                    if (!(res.data && (res.data.statusCode === 201 || res.data.statusCode === 200))) {
+                      window.alert("Failed to upload destination");
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    if (err.response && err.response.data && err.response.data.statusCode === 422) {
+                      console.log(err.response.data);
+                      window.alert(err.response.message);
+                    } else {
+                      console.error(err);
+                      window.alert("Failed to create travel plan");
+                    }
+                  });
+              }
+            });
+          } else {
+            window.alert("Something went wrong!");
           }
         })
         .catch((err) => {
@@ -178,9 +202,6 @@ export default function BuatRencana() {
             console.error(err);
             window.alert("Failed to create travel plan");
           }
-        })
-        .finally(() => {
-          setIsLoading(false);
         });
     });
   };
