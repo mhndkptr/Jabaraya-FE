@@ -188,7 +188,6 @@ export default function BuatRencana() {
                     }
                   });
               }
-              console.log(destinationPayload);
             });
           } else {
             window.alert("Something went wrong!");
