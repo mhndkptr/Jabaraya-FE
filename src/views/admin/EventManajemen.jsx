@@ -330,7 +330,7 @@ export default function EventManajemen() {
                                                     "bulletedList",
                                                     "numberedList",
                                                     "|",
-                                                    "imageUpload",
+                                                    "imageInsert",
                                                     "blockQuote",
                                                     "insertTable",
                                                     "mediaEmbed",
