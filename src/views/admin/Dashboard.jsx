@@ -125,7 +125,6 @@ export default function Dashboard() {
                   <div className="media-body">
                     <div className="float-right text-blue-500">{new Date(event.start_date).toLocaleString()}</div>
                     <div className="media-title font-semibold">{event.name}</div>
-                    <span className="text-sm text-gray-500">{event.content}</span>
                     <br></br>
                     {event.location && (
                       <a href={event.location} className="text-sm text-gray-400" target="_blank" rel="noopener noreferrer">
