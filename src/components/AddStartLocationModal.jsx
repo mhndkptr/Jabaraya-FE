@@ -2,7 +2,6 @@ import iconLocation from "../assets/icons/icon-location.svg";
 
 import PlaceSearch from "./PlaceSearch";
 import { useEffect, useState } from "react";
-import InputBudget from "./InputBudget";
 
 export default function AddStartLocationModal({ isOpen, onClose, handleSubmit }) {
   const [detailLocation, setDetailLocation] = useState({});
