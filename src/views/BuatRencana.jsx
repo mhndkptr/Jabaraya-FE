@@ -33,29 +33,69 @@ export default function BuatRencana() {
       const origins = [{ placeId: placeIds[i] }];
       const destinations = [{ placeId: placeIds[i + 1] }];
 
-      await new Promise((resolve, reject) => {
-        service.getDistanceMatrix(
-          {
-            origins,
-            destinations,
-            travelMode: "DRIVING",
-          },
-          (response, status) => {
-            if (status === "OK") {
-              const distance = response.rows[0].elements[0].distance.value;
-              totalMeters += distance;
-              resolve();
-            } else {
-              console.error("Error fetching distance matrix:", status);
-              reject(status);
+      try {
+        await new Promise((resolve, reject) => {
+          service.getDistanceMatrix(
+            {
+              origins,
+              destinations,
+              travelMode: "DRIVING",
+            },
+            (response, status) => {
+              if (status === "OK") {
+                const element = response.rows[0]?.elements[0];
+                if (element && element.distance) {
+                  const distance = element.distance.value;
+                  totalMeters += distance;
+                  resolve();
+                } else {
+                  reject("Distance data is undefined");
+                }
+              } else {
+                console.error("Error fetching distance matrix:", status);
+                reject(status);
+              }
             }
-          }
-        );
-      });
+          );
+        });
+      } catch (error) {
+        const originCoords = await getCoordinates(placeIds[i]);
+        const destinationCoords = await getCoordinates(placeIds[i + 1]);
+        const distance = calculateHaversineDistance(originCoords, destinationCoords);
+        totalMeters += distance;
+      }
     }
 
     const totalKm = totalMeters / 1000;
     return totalKm;
+  };
+
+  const getCoordinates = async (placeId) => {
+    const service = new window.google.maps.places.PlacesService(document.createElement("div"));
+    return new Promise((resolve, reject) => {
+      service.getDetails({ placeId }, (place, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          resolve({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+        } else {
+          reject(status);
+        }
+      });
+    });
+  };
+
+  const calculateHaversineDistance = (coords1, coords2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 6371e3;
+    const lat1 = toRad(coords1.lat);
+    const lat2 = toRad(coords2.lat);
+    const deltaLat = toRad(coords2.lat - coords1.lat);
+    const deltaLng = toRad(coords2.lng - coords1.lng);
+
+    const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c;
+    return distance;
   };
 
   const calculateEstimation = () => {
@@ -66,6 +106,13 @@ export default function BuatRencana() {
     });
 
     return totalEstimations;
+  };
+
+  const handleReset = () => {
+    setStartLocation({});
+    setDestinations([]);
+    setName("");
+    setIsLoading(false);
   };
 
   const handleSubmit = (e) => {
@@ -102,6 +149,7 @@ export default function BuatRencana() {
         distances = await calculateTotalDistance(placeIds);
       } catch (err) {
         window.alert("Failed to calculate total distances");
+        setIsLoading(false);
         console.error(err);
       }
       travelPlan.totalDistance = distances;
@@ -128,17 +176,17 @@ export default function BuatRencana() {
       await axiosClient
         .post("/travel-plans", payload)
         .then(async (res) => {
-          if (res.data && (res.data.statusCode === 201 || res.data.statusCode === 200)) {
+          if (res?.data && (res.data?.statusCode === 201 || res.data?.statusCode === 200)) {
             travelPlan.destinations.map(async (destination, index) => {
               const destinationPayload = {
                 startAt: destination.startAt,
                 endAt: destination.endAt,
                 vehicle: destination.vehicle,
-                financialTransportation: destination.financialRecords.transportation,
-                financialLodging: destination.financialRecords.lodging,
-                financialConsumption: destination.financialRecords.consumption,
-                financialEmergencyFund: destination.financialRecords.emergencyFund,
-                financialSouvenir: destination.financialRecords.souvenir,
+                financialTransportation: destination.financialRecords.total === 0 ? 0 : destination.financialRecords.transportation,
+                financialLodging: destination.financialRecords.total === 0 ? 0 : destination.financialRecords.lodging,
+                financialConsumption: destination.financialRecords.total === 0 ? 0 : destination.financialRecords.consumption,
+                financialEmergencyFund: destination.financialRecords.total === 0 ? 0 : destination.financialRecords.emergencyFund,
+                financialSouvenir: destination.financialRecords.total === 0 ? 0 : destination.financialRecords.souvenir,
                 financialTotal: destination.financialRecords.total,
                 locationName: destination.detailLocation.name,
                 locationPlaceId: destination.detailLocation.place_id,
@@ -196,12 +244,15 @@ export default function BuatRencana() {
         .catch((err) => {
           console.log(err);
           if (err.response && err.response.data && err.response.data.statusCode === 422) {
-            console.log(err.response.data);
+            console.log(err.response.data.errors);
             window.alert(err.response.message);
           } else {
             console.error(err);
             window.alert("Failed to create travel plan");
           }
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     });
   };
@@ -248,7 +299,7 @@ export default function BuatRencana() {
         <div className="md:w-[700px] w-full jbDropShadow rounded-xl py-5 px-5">
           <div className="flex justify-between items-center">
             <h1 className=" text-[1.2rem] md:text-[1.7rem] font-bold text-black">Buat Rencana jalan-jalan yuk!</h1>
-            <button className="flex justify-center items-center p-2 rounded-md jbDropShadow">
+            <button className="flex justify-center items-center p-2 rounded-md jbDropShadow hover:bg-slate-50" type="button" onClick={handleReset}>
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
@@ -301,12 +352,18 @@ export default function BuatRencana() {
               type="submit"
               form="create-plan-travel-form"
               className="p-3 text-white text-center  font-medium text-[1rem] md:hidden bg-jabarayaColors-700 hover:bg-jabarayaColors-800 rounded-xl w-[50%] mt-4 transition flex mx-auto justify-center items-center"
+              disabled={isLoading}
             >
               {isLoading ? <div className="border-gray-300 lg:h-6 lg:w-6 w-4 h-4 my-1 mx-10 animate-spin rounded-full border-2 border-t-white" /> : "Buat Rencana"}
             </button>
           </div>
         </div>
-        <button type="submit" form="create-plan-travel-form" className="py-3.5 mx-auto text-white font-medium text-[1.4rem] hidden md:block bg-jabarayaColors-700 hover:bg-jabarayaColors-800 rounded-2xl mt-5 transition px-20">
+        <button
+          type="submit"
+          form="create-plan-travel-form"
+          className="py-3.5 mx-auto text-white font-medium text-[1.4rem] hidden md:block bg-jabarayaColors-700 hover:bg-jabarayaColors-800 rounded-2xl mt-5 transition px-20"
+          disabled={isLoading}
+        >
           {isLoading ? <div className="border-gray-300 lg:h-6 lg:w-6 w-5 h-5 my-1 mx-14 animate-spin rounded-full border-2 border-t-white" /> : "Buat Rencana"}
         </button>
       </div>

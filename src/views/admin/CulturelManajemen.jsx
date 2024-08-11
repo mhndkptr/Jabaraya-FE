@@ -311,7 +311,7 @@ export default function CulturelManajemen() {
                                                         "bulletedList",
                                                         "numberedList",
                                                         "|",
-                                                        "imageUpload",
+                                                        "imageInsert",
                                                         "blockQuote",
                                                         "insertTable",
                                                         "mediaEmbed",

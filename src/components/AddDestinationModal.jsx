@@ -71,6 +71,19 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
 
   const handleAddDestinationSubmit = (e) => {
     e.preventDefault();
+    if (!startDate || !endDate || startDate > endDate) {
+      return window.alert("Date not valid!");
+    }
+    if (!vehicle) {
+      return window.alert("Please select vehicle");
+    }
+    if (!financialRecords) {
+      return window.alert("Please input financial records");
+    }
+    if (!detailLocation) {
+      return window.alert("Something went wrong!");
+    }
+
     const data = {
       startAt: startDate,
       endAt: endDate,
@@ -137,7 +150,6 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                           const date = new Date(e.target.value);
                           if (!isNaN(date.getTime())) {
                             setStartDate(date);
-                            e.target.type = "text";
                           }
                         }}
                         placeholder="Jadwal brkt [Date]"
@@ -145,17 +157,19 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                         required
                         onFocus={(e) => {
                           e.target.type = "date";
-                          if (!startDate) {
-                            e.target.value = getCurrentDate();
-                          } else {
+                          if (startDate) {
                             e.target.value = startDate.toISOString().split("T")[0];
                           }
-                          e.target.showPicker();
+                          setTimeout(() => {
+                            e.target.showPicker();
+                          }, 0);
                         }}
                         onBlur={(e) => {
-                          e.target.type = "text";
-                          if (startDate) {
-                            e.target.value = startDate.toLocaleDateString("en-US");
+                          if (!e.currentTarget.contains(e.relatedTarget)) {
+                            e.target.type = "text";
+                            if (startDate) {
+                              e.target.value = startDate.toLocaleDateString("en-US");
+                            }
                           }
                         }}
                         onInput={(e) => {
@@ -164,6 +178,7 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                             setStartDate(date);
                           }
                         }}
+                        min={new Date().toLocaleDateString("fr-ca")}
                       />
                     </div>
 
@@ -179,7 +194,6 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                           const date = new Date(e.target.value);
                           if (!isNaN(date.getTime())) {
                             setEndDate(date);
-                            e.target.type = "text";
                           }
                         }}
                         placeholder="Jadwal pulang [Date]"
@@ -187,17 +201,17 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                         required
                         onFocus={(e) => {
                           e.target.type = "date";
-                          if (!endDate) {
-                            e.target.value = getCurrentDate();
-                          } else {
+                          if (endDate) {
                             e.target.value = endDate.toISOString().split("T")[0];
                           }
                           e.target.showPicker();
                         }}
                         onBlur={(e) => {
-                          e.target.type = "text";
-                          if (endDate) {
-                            e.target.value = endDate.toLocaleDateString("en-US");
+                          if (!e.currentTarget.contains(e.relatedTarget)) {
+                            e.target.type = "text";
+                            if (endDate) {
+                              e.target.value = endDate.toLocaleDateString("en-US");
+                            }
                           }
                         }}
                         onInput={(e) => {
@@ -206,6 +220,7 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                             setEndDate(date);
                           }
                         }}
+                        min={startDate ? startDate.toLocaleDateString("fr-ca") : ""}
                       />
                     </div>
 
