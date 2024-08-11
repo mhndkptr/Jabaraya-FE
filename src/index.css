@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply font-Urbanist;
+    @apply font-Urbanist scroll-smooth;
   }
 
   /* * {
