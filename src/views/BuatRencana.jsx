@@ -68,6 +68,13 @@ export default function BuatRencana() {
     return totalEstimations;
   };
 
+  const handleReset = () => {
+    console.log("tes");
+    setStartLocation({});
+    setDestinations([]);
+    setName("");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!startLocation.place_id) {
@@ -248,7 +255,7 @@ export default function BuatRencana() {
         <div className="md:w-[700px] w-full jbDropShadow rounded-xl py-5 px-5">
           <div className="flex justify-between items-center">
             <h1 className=" text-[1.2rem] md:text-[1.7rem] font-bold text-black">Buat Rencana jalan-jalan yuk!</h1>
-            <button className="flex justify-center items-center p-2 rounded-md jbDropShadow">
+            <button className="flex justify-center items-center p-2 rounded-md jbDropShadow hover:bg-slate-50" type="button" onClick={handleReset}>
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
