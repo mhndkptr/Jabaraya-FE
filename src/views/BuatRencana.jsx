@@ -244,7 +244,7 @@ export default function BuatRencana() {
         .catch((err) => {
           console.log(err);
           if (err.response && err.response.data && err.response.data.statusCode === 422) {
-            console.log(err.response.errors);
+            console.log(err.response.data.errors);
             window.alert(err.response.message);
           } else {
             console.error(err);
