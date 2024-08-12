@@ -16,7 +16,6 @@ import NotFound from "./views/NotFound";
 import Dashboard from "./views/admin/Dashboard";
 import BeritaManajemen from "./views/admin/BeritaManajemen";
 import ArtikelManajemen from "./views/admin/ArtikelManajemen";
-import EditPr from "./views/EditPr";
 import EventManajemen from "./views/admin/EventManajemen";
 import CulturelManajemen from "./views/admin/CulturelManajemen";
 import UserManajemen from "./views/admin/UserManajemen";
@@ -27,6 +26,8 @@ import ArtikelLengkap from "./views/detail/artikelLengkap";
 import BudayaLengkap from "./views/detail/budayaLengkap";
 import BuatRencana from "./views/BuatRencana";
 import EventLengkap from "./views/detail/eventLengkap";
+import ProfileUnauthorized from "./components/ProfileUnauthorized";
+import ProfileSettings from "./views/ProfileSettings";
 
 const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -53,7 +54,6 @@ const router = createBrowserRouter([
       { path: "/artikellengkap", element: <ArtikelLengkap /> },
       { path: "/budayalengkap", element: <BudayaLengkap /> },
       { path: "/eventlengkap/:id", element: <EventLengkap /> },
-      { path: "/EditPr", element: <EditPr /> },
     ],
   },
   {
@@ -65,8 +65,29 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "/perjalananfavorite/:travelPlanId", element: <PerjalananFavorite /> },
-      { path: "/profile", element: <Profile /> },
       { path: "/buatrencana", element: <BuatRencana /> },
+    ],
+  },
+  {
+    path: "/",
+    element: isLoggedIn() ? (
+      <ProtectedRoute isAllowed={isLoggedIn() && getRole() === "user"} role={getRole()} isLoggedIn={isLoggedIn()}>
+        <DefaultLayout></DefaultLayout>
+      </ProtectedRoute>
+    ) : (
+      <ProtectedRoute isAllowed={!isLoggedIn()} role={getRole()}>
+        <GuestLayout></GuestLayout>
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "/profile",
+        element: isLoggedIn() ? <Profile /> : <ProfileUnauthorized />,
+      },
+      {
+        path: "/profile/settings",
+        element: isLoggedIn() ? <ProfileSettings /> : <ProfileUnauthorized />,
+      },
     ],
   },
   {

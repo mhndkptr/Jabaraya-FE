@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json, multipart/form-data",
     "Access-Control-Allow-Origin": "*",
@@ -24,7 +24,22 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     const { response } = error;
-    if (response.status === 401) {
+
+    if (error.code === "ERR_BAD_RESPONSE") {
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("USER_ROLE");
+      window.alert("Server error!");
+      window.location.replace("/");
+    }
+
+    if (error.code === "ERR_NETWORK") {
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("USER_ROLE");
+      window.alert("Error Network");
+      window.location.replace("/");
+    }
+
+    if (response?.status === 401) {
       localStorage.removeItem("ACCESS_TOKEN");
       localStorage.removeItem("USER_ROLE");
       window.location.reload();
