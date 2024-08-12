@@ -23,8 +23,10 @@ export default function BeritaLengkap() {
 
   return (
     <section className="border-black w-full min-h-screen   px-5 md:px-28 mt-10 -z-10">
-      <button className="flex items-center  rounded-md  p-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] justify-center">
-        <span class="material-symbols-outlined">chevron_left</span>{" "}
+      <button
+        className="flex items-center rounded-md p-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] justify-center"
+        onClick={() => navigate(-1)}>
+        <span className="material-symbols-outlined">chevron_left</span>{" "}
         <p>Kembali</p>
       </button>
       <aside className="bg-jabarayaColors-200  flex flex-col w-full h-auto mt-5 rounded-xl lg:grid lg:grid-cols-[1fr,1fr] md:p-10 p-4 ">
