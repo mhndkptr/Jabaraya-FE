@@ -88,4 +88,8 @@
   .jbDropShadow {
     @apply shadow-[0px_0px_3px_1px_rgba(0,0,0,0.15)];
   }
+
+  .icon-blue-color {
+    filter: invert(21%) sepia(100%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(90%);
+  }
 }
