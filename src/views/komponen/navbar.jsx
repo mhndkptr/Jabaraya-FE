@@ -46,7 +46,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={home} alt="" className="w-[30px] h-[30px]  md:hidden " />
           <a
             href="/"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition-all relative ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition-all relative ${
               pathname == "/"
                 ? "font-bold"
                 : "font-normal w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
@@ -60,7 +60,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={enjoy} alt="" className="w-[30px] h-[30px] md:hidden" />
           <a
             href="/buatrencana"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition-all ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition-all ${
               pathname.startsWith("/buatrencana")
                 ? "font-bold"
                 : "font-normal relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
@@ -73,7 +73,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={news} alt="" className="w-[30px] h-[30px]  md:hidden" />{" "}
           <a
             href="/berita"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition-all ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition-all ${
               pathname.startsWith("/berita")
                 ? "font-bold"
                 : "font-normal relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
@@ -86,7 +86,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={news} alt="" className="w-[30px] h-[30px]  md:hidden" />{" "}
           <a
             href="/artikel"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition-all ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition-all ${
               pathname.startsWith("/artikel")
                 ? "font-bold"
                 : "font-normal relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
@@ -99,7 +99,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={event} alt="" className="w-[30px] h-[30px] md:hidden" />{" "}
           <a
             href="/event"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition-all ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition-all ${
               pathname.startsWith("/event")
                 ? "font-bold"
                 : "font-normal relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
@@ -112,7 +112,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={budaya} alt="" className="w-[30px] h-[30p md:hidden" />{" "}
           <a
             href="/daftarbudaya"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition ${
               pathname.startsWith("/daftarbudaya")
                 ? "font-bold"
                 : "font-normal relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
@@ -125,7 +125,7 @@ const Navlinks = ({ isOpen }) => {
           <img src={home} alt="" className="w-[30px] h-[30px]  md:hidden" />{" "}
           <a
             href="/profile"
-            className={`text-white mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[12px] transition ${
+            className={`text-white lg:mx-3 md:mx-2 mx-3 py-2 rounded-md text-[17px] lg:text-[18px] md:text-[15px] transition ${
               pathname.startsWith("/profile")
                 ? "font-bold"
                 : "font-normal relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:rounded-lg after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
