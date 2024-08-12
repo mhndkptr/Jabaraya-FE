@@ -2,12 +2,7 @@
 const flowbite = require("flowbite-react/tailwind");
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
-    flowbite.content(),
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js", flowbite.content()],
   theme: {
     extend: {
       colors: {
@@ -28,8 +23,7 @@ export default {
         Urbanist: ["Urbanist", "sans-serif"],
       },
       backgroundImage: {
-        "loginRegister-gradient":
-          "linear-gradient(to bottom, #3C90E8, #1D1DA0)",
+        "loginRegister-gradient": "linear-gradient(to bottom, #3C90E8, #1D1DA0)",
       },
     },
   },

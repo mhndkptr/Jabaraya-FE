@@ -16,7 +16,6 @@ import NotFound from "./views/NotFound";
 import Dashboard from "./views/admin/Dashboard";
 import BeritaManajemen from "./views/admin/BeritaManajemen";
 import ArtikelManajemen from "./views/admin/ArtikelManajemen";
-import EditPr from "./views/EditPr";
 import EventManajemen from "./views/admin/EventManajemen";
 import CulturelManajemen from "./views/admin/CulturelManajemen";
 import UserManajemen from "./views/admin/UserManajemen";
@@ -28,6 +27,7 @@ import BudayaLengkap from "./views/detail/budayaLengkap";
 import BuatRencana from "./views/BuatRencana";
 import EventLengkap from "./views/detail/eventLengkap";
 import ProfileUnauthorized from "./components/ProfileUnauthorized";
+import ProfileSettings from "./views/ProfileSettings";
 
 const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -86,7 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile/settings",
-        element: isLoggedIn() ? <EditPr /> : <ProfileUnauthorized />,
+        element: isLoggedIn() ? <ProfileSettings /> : <ProfileUnauthorized />,
       },
     ],
   },

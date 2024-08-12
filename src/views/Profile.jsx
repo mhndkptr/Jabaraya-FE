@@ -46,21 +46,6 @@ export default function Profile() {
       });
   };
 
-  const handleLogout = async (event) => {
-    event.preventDefault();
-    axiosClient
-      .post("/auth/logout")
-      .then(() => {
-        localStorage.removeItem("USER_ROLE");
-        localStorage.removeItem("ACCESS_TOKEN");
-        window.location.replace("/");
-      })
-      .catch((err) => {
-        const response = err.response;
-        console.log(response);
-      });
-  };
-
   const getProfileData = async () => {
     axiosClient
       .get("/user")
@@ -90,7 +75,7 @@ export default function Profile() {
                 </span>
 
                 <button type="button" onClick={() => navigate("/profile/settings")} className="p-2 rounded-md font-semibold flex justify-center items-center gap-2 jbDropShadow hover:bg-slate-50 transition">
-                  <img src={iconSettings} alt="Settings Icon" className="lg:w-8 md:w-7 sm:w-6 w-5" />
+                  <img src={iconSettings} alt="Settings Icon" className="lg:w-7 sm:w-6 w-5" />
                   <h3 className="text-body">Pengaturan & Edit Profile</h3>
                 </button>
               </div>
