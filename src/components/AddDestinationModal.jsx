@@ -12,15 +12,15 @@ import PlaceSearch from "./PlaceSearch";
 import { useEffect, useState } from "react";
 import InputBudget from "./InputBudget";
 
-export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+export default function AddDestinationModal({ isOpen, onClose, handleSubmit, isLoading = false, initialValue = null, placeholder = "Tambah Perjalanan" }) {
+  const [startDate, setStartDate] = useState(initialValue && initialValue.startAt ? new Date(initialValue.startAt) : "");
+  const [endDate, setEndDate] = useState(initialValue && initialValue.endAt ? new Date(initialValue.endAt) : "");
   const [location, setLocation] = useState(null);
-  const [vehicle, setVehicle] = useState("");
+  const [vehicle, setVehicle] = useState(initialValue && initialValue.vehicle ? initialValue.vehicle : "");
   const [isSelectVehicle, setIsSelectVehicle] = useState(false);
   const [isShowInputBudget, setIsShowInputBudget] = useState(false);
-  const [financialRecords, setFinancialRecords] = useState({});
-  const [detailLocation, setDetailLocation] = useState({});
+  const [financialRecords, setFinancialRecords] = useState(initialValue && initialValue.financial_record ? initialValue.financial_record : {});
+  const [detailLocation, setDetailLocation] = useState(initialValue && initialValue.detail_location ? initialValue.detail_location : {});
 
   const dataVehicles = [
     {
@@ -51,7 +51,17 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
   ];
 
   const handleAddPlace = (place) => {
-    setDetailLocation(place);
+    if (initialValue && initialValue.detail_location) {
+      setDetailLocation({
+        name: place.name,
+        address: place.address,
+        place_id: place.place_id,
+        lat: place.location.lat,
+        lng: place.location.lng,
+      });
+    } else {
+      setDetailLocation(place);
+    }
   };
 
   const getCurrentDate = () => {
@@ -83,6 +93,9 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
     if (!detailLocation) {
       return window.alert("Something went wrong!");
     }
+    if (detailLocation && !detailLocation.place_id) {
+      return window.alert("Please select correct location");
+    }
 
     const data = {
       startAt: startDate,
@@ -106,8 +119,10 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
           id="crud-modal"
           tabIndex="-1"
           onClick={(e) => {
-            if (e.target.id === "crud-modal") {
-              onClose(e);
+            if (!isLoading) {
+              if (e.target.id === "crud-modal") {
+                onClose(e);
+              }
             }
           }}
           aria-hidden="true"
@@ -121,7 +136,14 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
               <div className="relative bg-white rounded-lg shadow p-4 md:p-5 transition-all">
                 <div className="flex items-center justify-between rounded-t transition-all">
                   <h3 className="text-lg font-semibold text-black titel1-bold">Buat rencana jalan-jalan yuk</h3>
-                  <button onClick={onClose} className=" lg:p-2.5 p-2 rounded-lg text-2xl text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600 jbDropShadow">
+                  <button
+                    onClick={() => {
+                      if (!isLoading) {
+                        onClose();
+                      }
+                    }}
+                    className=" lg:p-2.5 p-2 rounded-lg text-2xl text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600 jbDropShadow"
+                  >
                     <svg className="lg:w-4 lg:h-4 w-3 h-3" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M1.33333 1.33496L19.6667 19.6683" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
                       <path d="M19.6668 1.33496L1.33349 19.6683" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
@@ -135,7 +157,7 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                         <img className="md:w-7 md:h-8 w-7 h-7" src={iconLocation} alt="Location Icon" />
                       </label>
 
-                      <PlaceSearch onAddPlace={handleAddPlace} initialPlaceId={detailLocation.place_id && detailLocation.place_id} placeholder={"Masukkan alamat tujuan"} />
+                      <PlaceSearch isLoading={isLoading} onAddPlace={handleAddPlace} initialPlaceId={detailLocation.place_id && detailLocation.place_id} placeholder={"Masukkan alamat tujuan"} />
                     </div>
 
                     <div className="col-span-2 sm:col-span-1 flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
@@ -178,6 +200,7 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                             setStartDate(date);
                           }
                         }}
+                        disabled={isLoading}
                         min={new Date().toLocaleDateString("fr-ca")}
                       />
                     </div>
@@ -220,6 +243,7 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                             setEndDate(date);
                           }
                         }}
+                        disabled={isLoading}
                         min={startDate ? startDate.toLocaleDateString("fr-ca") : ""}
                       />
                     </div>
@@ -232,7 +256,11 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                         <button
                           id="input-budget"
                           type="button"
-                          onClick={() => setIsShowInputBudget(true)}
+                          onClick={() => {
+                            if (!isLoading) {
+                              setIsShowInputBudget(true);
+                            }
+                          }}
                           className="text-[#595959] bg-transparent text-body text-start rounded-lg border-none outline-none focus:ring-0 focus:border-none focus:outline-none w-full py-2.5 px-1"
                         >
                           {financialRecords.total ? financialRecords.total : "Estimasi budget"}
@@ -262,7 +290,15 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                           {isSelectVehicle &&
                             dataVehicles.map((data, index) => {
                               return (
-                                <div key={index} className={`flex gap-3 items-center justify-between py-2 px-4 border-b hover:bg-slate-50 cursor-pointer`} onClick={() => handleChangeVehicle(data.key)}>
+                                <div
+                                  key={index}
+                                  className={`flex gap-3 items-center justify-between py-2 px-4 border-b hover:bg-slate-50 cursor-pointer`}
+                                  onClick={() => {
+                                    if (!isLoading) {
+                                      handleChangeVehicle(data.key);
+                                    }
+                                  }}
+                                >
                                   <label htmlFor="input-vehicle" className="flex items-center justify-between h-[65%] w-12 pr-4 border-r border-[#BDBBBB] overflow-visible">
                                     <img className="md:w-8 md:h-7 w-7 h-6" src={data.image} alt="Location Icon" />
                                   </label>
@@ -278,8 +314,12 @@ export default function AddDestinationModal({ isOpen, onClose, handleSubmit }) {
                       </div>
                     </div>
                   </div>
-                  <button type="submit" className="text-black text-body inline-flex items-center bg-white hover:bg-slate-50 focus:ring-2 focus:outline-none focus:ring-slate-100 rounded-lg px-5 py-2.5 text-center mx-auto jbDropShadow mt-3">
-                    Tambah Perjalanan
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="text-black text-body inline-flex items-center bg-white hover:bg-slate-50 focus:ring-2 focus:outline-none focus:ring-slate-100 rounded-lg px-5 py-2.5 text-center mx-auto jbDropShadow mt-3"
+                  >
+                    {isLoading ? <div className="border-gray-300 lg:h-6 lg:w-6 w-4 h-4 animate-spin rounded-full border-2 border-t-white xl:mx-10 lg:mx-8 md:mx-6 sm:mx-5 mx-4 my-0.5" /> : placeholder}
                   </button>
                 </form>
               </div>

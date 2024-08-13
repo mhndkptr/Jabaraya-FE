@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 
-const PlaceSearch = ({ onAddPlace, initialPlaceId, placeholder }) => {
+const PlaceSearch = ({ onAddPlace, initialPlaceId, placeholder, isLoading = false }) => {
   const [query, setQuery] = useState("");
   const autocompleteRef = useRef(null);
   const { isLoaded } = useJsApiLoader({
@@ -85,6 +85,7 @@ const PlaceSearch = ({ onAddPlace, initialPlaceId, placeholder }) => {
           placeholder={placeholder}
           className="text-[#595959] text-body bg-transparent placeholder:text-body rounded-lg border-none outline-none focus:ring-0 focus:border-none focus:outline-none w-full py-2.5 px-1"
           required
+          disabled={isLoading}
         />
       </Autocomplete>
     </div>
