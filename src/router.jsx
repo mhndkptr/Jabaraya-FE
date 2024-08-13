@@ -28,6 +28,7 @@ import BuatRencana from "./views/BuatRencana";
 import EventLengkap from "./views/detail/eventLengkap";
 import ProfileUnauthorized from "./components/ProfileUnauthorized";
 import ProfileSettings from "./views/ProfileSettings";
+import SortCulture from "./views/detail/sortCulture";
 
 const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
 const getRole = () => localStorage.getItem("USER_ROLE");
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
       { path: "/artikellengkap/:id", element: <ArtikelLengkap /> },
       { path: "/budayalengkap", element: <BudayaLengkap /> },
       { path: "/eventlengkap/:id", element: <EventLengkap /> },
+      { path: "/sortCulture", element: <SortCulture /> },
     ],
   },
   {

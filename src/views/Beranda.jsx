@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import kelinci from "../assets/img-beranda/kelinci.png";
 import berita1 from "../assets/img-beranda/berita1.png";
 import emoji from "../assets/img-beranda/Group.png";
@@ -9,6 +10,44 @@ import jam from "../assets/img-beranda/jam.png";
 import mobil from "../assets/img-beranda/mobil.png";
 
 export default function Beranda() {
+  const [articles, setArticles] = useState([]);
+  const [news, setNews] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [cultures, setCultures] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/articles")
+      .then(response => {
+        const sortedArticles = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setArticles(sortedArticles.slice(0, 3));
+      })
+      .catch(error => console.error("Error fetching articles:", error));
+  
+    axios.get("http://127.0.0.1:8000/api/news")
+      .then(response => {
+        const sortedNews = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setNews(sortedNews.slice(0, 3));
+      })
+      .catch(error => console.error("Error fetching news:", error));
+  
+    axios.get("http://127.0.0.1:8000/api/events")
+      .then(response => {
+        const sortedEvents = response.data.sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+        setEvents(sortedEvents.slice(0, 3));
+      })
+      .catch(error => console.error("Error fetching events:", error));
+      
+      axios.get("http://127.0.0.1:8000/api/categorys")
+      .then((response) => {setCategories(response.data);})
+      .catch((error) => {console.error("Error fetching categories data:", error);
+      });
+
+    axios.get("http://127.0.0.1:8000/api/cultures")
+      .then(response => setCultures(response.data))
+      .catch(error => console.error("Error fetching cultures:", error));
+  }, []);
+  
   return (
     <section>
       {/* SECTION 1 BERANDA HALAMAN UTAMA */}
@@ -165,140 +204,39 @@ export default function Beranda() {
           </h3>
           {/* CONTAINER BERITA */}
           <div className="mt-6 min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px]  w-[310px] p-2 inline-block ">
+          {news.map(newsItem => (
+            <div className=" bg-slate-50 shadow-md rounded-lg h-auto w-[310px] p-2 inline-block ">
               <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
+              <img
+                  src={`http://127.0.0.1:8000/storage/${newsItem.thumbnail}`}
+                  alt={newsItem.title}
+                  className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4"
                 />
                 <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
+                  {newsItem.title}
                 </h2>
                 <div className="flex justify-between items-center w-full">
                   <div>
                     <p className="text-xs">
                       Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
+                      <a className="font-semibold text-jabarayaColors-700">Admin Ganteng
                       </a>{" "}
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
+                    <a className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 ">
+                    {new Date(newsItem.created_at).toLocaleDateString()}
                     </a>
                   </div>
                 </div>
                 <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <a href="/berita" className="font-medium">
+                  <a href={`/beritaLengkap/${newsItem.id}`}  className="font-medium">
                     Baca Selengkapnya
                   </a>
                 </button>
               </div>
             </div>
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px] w-[310px] p-2 inline-block">
-              <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
-                />
-                <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
-                </h2>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <p className="text-xs">
-                      Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
-                    </a>
-                  </div>
-                </div>
-                <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <p className="font-medium">Baca Selengkapnya</p>
-                </button>
-              </div>
-            </div>
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px] w-[310px] p-2 inline-block">
-              <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
-                />
-                <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
-                </h2>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <p className="text-xs">
-                      Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
-                    </a>
-                  </div>
-                </div>
-                <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <p className="font-medium">Baca Selengkapnya</p>
-                </button>
-              </div>
-            </div>
+          ))}
           </div>
           <button className="mt-10 px-10  hidden md:block py-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] bg-white rounded-md">
             <a href="/berita" className="font-semibold">
@@ -324,143 +262,45 @@ export default function Beranda() {
           </h3>
           {/* CONTAINER ARTIKEL */}
           <div className="mt-6min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px]  w-[310px] p-2 inline-block ">
+            {articles.map(article => (
+            <div className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block ">
               <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
+              <img
+                  src={`http://127.0.0.1:8000/storage/${article.thumbnail}`}
+                  alt={article.title}
+                  className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4"
                 />
                 <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
+                  {article.title}
                 </h2>
                 <div className="flex justify-between items-center w-full">
                   <div>
                     <p className="text-xs">
                       Oleh{" "}
                       <a
-                        href=""
-                        c
                         className="font-semibold text-jabarayaColors-700"
                       >
-                        Muhammad nur Shodiq
+                        Admin Ganteng
                       </a>{" "}
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
+                    <a className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 ">
+                      {new Date(article.created_at).toLocaleDateString()}
                     </a>
                   </div>
                 </div>
                 <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <a href="/berita" className="font-medium">
+                  <a href={`/artikelLengkap/${article.id}`}  className="font-medium">
                     Baca Selengkapnya
                   </a>
                 </button>
               </div>
             </div>
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px] w-[310px] p-2 inline-block">
-              <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
-                />
-                <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
-                </h2>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <p className="text-xs">
-                      Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
-                    </a>
-                  </div>
-                </div>
-                <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <p className="font-medium">Baca Selengkapnya</p>
-                </button>
-              </div>
-            </div>
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px] w-[310px] p-2 inline-block">
-              <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
-                />
-                <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
-                </h2>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <p className="text-xs">
-                      Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
-                    </a>
-                  </div>
-                </div>
-                <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <p className="font-medium">Baca Selengkapnya</p>
-                </button>
-              </div>
-            </div>
+          ))}
           </div>
           <button className="mt-10 px-10  hidden md:block py-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] bg-white rounded-md">
-            <a href="/berita" className="font-semibold">
+            <a href="/Artikel" className="font-semibold">
               Lihat lebih banyak{" "}
             </a>
           </button>
@@ -483,143 +323,46 @@ export default function Beranda() {
           </h3>
           {/* CONTAINER EVENT */}
           <div className="mt-6 min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px]  w-[310px] p-2 inline-block ">
+          {events.map(event => (
+            <div className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block ">
               <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
+              <img
+                  src={`http://127.0.0.1:8000/storage/${event.thumbnail}`}
+                  alt={event.title}
+                  className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4"
                 />
                 <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
+                  {event.name}
                 </h2>
                 <div className="flex justify-between items-center w-full">
                   <div>
                     <p className="text-xs">
                       Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
+                      <a className="font-semibold text-jabarayaColors-700">
+                        Admin Ganteng
                       </a>{" "}
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
+                    <a className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 ">
+                      Start : {new Date(event.start_date).toLocaleDateString('en-US')}
                     </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
+                    <a className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700">
+                      {categories.find(category => category.id === event.category_id)?.name}
                     </a>
                   </div>
                 </div>
                 <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <a href="/berita" className="font-medium">
+                  <a href={`/eventLengkap/${event.id}`}  className="font-medium">
                     Baca Selengkapnya
                   </a>
                 </button>
               </div>
             </div>
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px] w-[310px] p-2 inline-block">
-              <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
-                />
-                <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
-                </h2>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <p className="text-xs">
-                      Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
-                    </a>
-                  </div>
-                </div>
-                <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <p className="font-medium">Baca Selengkapnya</p>
-                </button>
-              </div>
-            </div>
-            <div className=" bg-slate-50 shadow-md rounded-lg h-[400px] w-[310px] p-2 inline-block">
-              <div className="flex flex-col justify-center items-center">
-                <img
-                  src={berita1}
-                  alt=""
-                  className=" object-cover  rounded-md"
-                />
-                <h2 className="font-semibold mb-2">
-                  Dunia Jurnalistik Berduka, Wartawan Senior Yusran Pare
-                  Meninggal Dunia, Dikebumikan di TPU Nagrog
-                </h2>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <p className="text-xs">
-                      Oleh{" "}
-                      <a
-                        href=""
-                        c
-                        className="font-semibold text-jabarayaColors-700"
-                      >
-                        Muhammad nur Shodiq
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href=""
-                      className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700 "
-                    >
-                      20/15/2024
-                    </a>
-                    <a
-                      href=""
-                      className="text-xs border font-semibold border-jabarayaColors-700 p-1 rounded-md  text-jabarayaColors-700"
-                    >
-                      Kuliner
-                    </a>
-                  </div>
-                </div>
-                <button className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 flex justify-center items-center mt-4">
-                  <p className="font-medium">Baca Selengkapnya</p>
-                </button>
-              </div>
-            </div>
+          ))}
           </div>
           <button className="mt-10 px-10  hidden md:block py-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] bg-white rounded-md">
-            <a href="/berita" className="font-semibold">
+            <a href="/Event" className="font-semibold">
               Lihat lebih banyak{" "}
             </a>
           </button>
@@ -646,154 +389,28 @@ export default function Beranda() {
           <h3 className="font-medium hidden md:block text-xl text-center">
             Lihat budaya Bandung dengan lebih luas!
           </h3>
-
           {/* CONTAINER */}
           {/* Container 1 */}
           <div className="h-auto mt-5 flex justify-center items-center flex-wrap gap-4 md:gap-6 lg:gap-8">
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            {categories.map(category => (
+            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-auto p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
               <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Tari di Bandung
+                {category.name} di Bandung
               </h1>
-
               <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
+              <img
+                  src=""
+                  alt={category.name}
                   className="object-cover rounded-md md:w-[317px] md:h-[230px]"
                 />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
+                <a href="/sortCulture" className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <p className="font-medium text-[7.5px] md:text-[17px]">
                     Lihat lebih banyak
                   </p>
-                </button>
+                </a>
               </div>
             </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Wayang di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Kuliner di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Musik di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Alat Musik di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Senjata di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Rumah Adat di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-[171px] p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
-              <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">
-                Museum di Bandung
-              </h1>
-
-              <div className="flex flex-col justify-center items-center p-2 w-full">
-                <img
-                  src={berita1}
-                  alt=""
-                  className="object-cover rounded-md md:w-[317px] md:h-[230px]"
-                />
-                <button className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                  <p className="font-medium text-[7.5px] md:text-[17px] ">
-                    Lihat lebih banyak
-                  </p>
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
