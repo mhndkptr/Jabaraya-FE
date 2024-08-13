@@ -15,15 +15,20 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-jabarayaColors-700/80 to-[#15314F]/80 md:from-jabarayaColors-700/60 rounded-b-lg md:rounded-none md:to-[#15314F]/60 py-3 w-full top-0 backdrop-blur-lg left-0 right-0 fixed z-50 px-8">
+    <nav className="bg-gradient-to-r from-jabarayaColors-700/80 to-[#15314F]/80 md:from-jabarayaColors-700/60 rounded-b-lg md:rounded-none md:to-[#15314F]/60 py-3 w-full top-0 backdrop-blur-lg left-0 right-0 sticky z-50 px-8">
       <div className="md:flex-row flex-col md:gap-10 lg:gap-0 flex md:justify-between items-center relative ">
         <div className="flex items-center justify-center flex-1 lg:flex-grow-0">
           <div className="flex w-max justify-center items-center">
             <img src={Logo} alt="JABARAYA Logo" className="w-[3rem] h-[3rem]" />
-            <p className="text-white lg:text-[17px] text-[16px] md:text-[17px] font-semibold">JABARAYA</p>
+            <p className="text-white lg:text-[17px] text-[16px] md:text-[17px] font-semibold">
+              JABARAYA
+            </p>
           </div>
 
-          <span onClick={toggle} className="material-symbols-outlined md:hidden absolute right-0 block text-white cursor-pointer ml-3">
+          <span
+            onClick={toggle}
+            className="material-symbols-outlined md:hidden absolute right-0 block text-white cursor-pointer ml-3"
+          >
             {isOpen ? "close" : "menu"}
           </span>
         </div>
