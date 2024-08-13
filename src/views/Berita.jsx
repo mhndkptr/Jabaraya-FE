@@ -56,41 +56,41 @@ export default function Berita() {
             <p className="text-body-bold"> Berita seputar Bandung</p>
           </div>
         </div>
-        <div id="Berita" className="h-auto flex flex-wrap md:mx-10 lg:mx-20 justify-center items-center mt-3">
-          <div className="flex flex-wrap justify-center items-start gap-5">
+        <div id="Berita" className="h-auto flex flex-wrap justify-center items-center mt-3 mx-auto md:mx-10 lg:mx-20">
+          <div className="flex justify-center gap-5 mx-auto">
             {currentNews.map((news) => (
-              <div key={news.id} className="flex flex-wrap justify-center items-start gap-5 px-6 md:px-1 mb-5">
-                <div className="bg-slate-50 shadow-md rounded-lg flex flex-col lg:h-[400px] h-auto w-full lg:w-[310px] p-2">
-                  <img
-                    src={`http://127.0.0.1:8000/storage/${news.thumbnail}`}
-                    alt={news.title}
-                    className="object-cover rounded-md w-[130px] h-[130px] lg:w-auto lg:h-[200px] mb-2 lg:mb-4"/>
-                  <div className="flex flex-col justify-between flex-grow">
-                    <div>
-                      <h2 className="font-semibold mb-2">{news.title}</h2>
-                      <div className="flex-col md:flex-row flex justify-between md:items-center w-full">
-                        <div>
-                          <p className="text-xs mb-1">Oleh{" "}
-                            <a className="font-semibold text-jabarayaColors-700">Admin Ganteng
-                            </a>
-                          </p>
-                        </div>
+              <div key={news.id} className="bg-slate-50 shadow-md rounded-lg flex flex-col h-auto w-full p-2">
+                <img
+                  src={`http://127.0.0.1:8000/storage/${news.thumbnail}`}
+                  alt={news.title}
+                  className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4"
+                />
+                <div className="flex flex-col justify-between flex-grow">
+                  <div>
+                    <h2 className="font-semibold mb-2 text-lg">{news.title}</h2>
+                    <div className="flex-col md:flex-row flex justify-between md:items-center w-full">
+                      <div>
+                        <p className="text-xs mb-1">Oleh{" "}
+                          <a className="font-semibold text-jabarayaColors-700">Admin Ganteng</a>
+                        </p>
+                      </div>
+                      <div className="flex gap-2 mb-4 justify-end">
                         <span className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md text-jabarayaColors-700">
                           {new Date(news.created_at).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
-                    <a href={`/beritaLengkap/${news.id}`}  className="w-full hidden rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
-                      <p className="font-medium">Baca Selengkapnya</p>
-                    </a>
                   </div>
+                  <a href={`/beritaLengkap/${news.id}`} className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
+                    <p className="font-medium">Baca Selengkapnya</p>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
         </div>
         {/* PAGE */}
-        <nav aria-label="Page navigation example" className="flex justify-center">
+        <nav aria-label="Page navigation example" className="flex justify-center mt-10">
           <ul className="flex items-center -space-x-px h-10 text-base">
             <li>
               <button

@@ -110,7 +110,7 @@ export default function Event() {
         </div>
       </div>
       <div id="Berita" className="h-auto flex flex-wrap md:mx-10 lg:mx-20 justify-center items-center mt-3">
-        <div className="flex flex-wrap justify-center items-start gap-5">
+        <div className="flex flex-wrap justify-center items-start mx-auto">
           {currentEvents.map((event) => (
             <div key={event.id} className="flex flex-wrap justify-center items-start gap-5 px-6 md:px-1 mb-5">
               <div className="bg-slate-50 shadow-md rounded-lg flex flex-col lg:h-[400px] h-auto w-full lg:w-[310px] p-2">
@@ -134,7 +134,7 @@ export default function Event() {
                       </span>
                     </div>
                   </div>
-                  <a href={`/eventLengkap/${event.id}`} className="w-full hidden rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
+                  <a href={`/eventLengkap/${event.id}`} className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
                     <p className="font-medium">Baca Selengkapnya</p>
                   </a>
                 </div>
