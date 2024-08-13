@@ -51,7 +51,7 @@ const router = createBrowserRouter([
       { path: "/event", element: <Event /> },
       { path: "/daftarbudaya", element: <DaftarBudaya /> },
       { path: "/beritalengkap/:id", element: <BeritaLengkap /> },
-      { path: "/artikellengkap", element: <ArtikelLengkap /> },
+      { path: "/artikellengkap/:id", element: <ArtikelLengkap /> },
       { path: "/budayalengkap", element: <BudayaLengkap /> },
       { path: "/eventlengkap/:id", element: <EventLengkap /> },
     ],

@@ -80,7 +80,7 @@ export default function Artikel() {
                       </div>
                     </div>
                   </div>
-                  <a href={`/beritaLengkap/${article.id}`} className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
+                  <a href={`/artikelLengkap/${article.id}`} className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
                     <p className="font-medium">Baca Selengkapnya</p>
                   </a>
                 </div>
