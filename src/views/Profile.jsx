@@ -83,7 +83,7 @@ export default function Profile() {
             <div className="md:mt-8 mt-6 w-full px-4 sm:px-0">
               <h1 className="titel1-bold text-start md:mb-8 mb-4">Daftar Perjalanan</h1>
 
-              {isLoading && "Loading travel data..."}
+              {isLoading && <h4 className="text-caption">Loading travel data...</h4>}
 
               {!isLoading && travelPlans && travelPlans.length > 0 && (
                 <div className="flex flex-col gap-5 md:gap-8">
