@@ -52,34 +52,7 @@ export default function ArtikelLengkap() {
           <p className="mb-5 text-justify text-[12px] md:text-[1rem]" dangerouslySetInnerHTML={{ __html: articles.content }}></p>
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-2">Baca juga:</h2>
-            <a
-              href=""
-              class="text-blue-500 hover:text-blue-700 text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
-            >
-              - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit, perspiciatis?
-            </a>
-            <a
-              href=""
-              class="text-blue-500 hover:text-blue-700 text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
-            >
-              - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit, perspiciatis?
-            </a>
-            <a
-              href=""
-              class="text-blue-500 hover:text-blue-700  text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
-            >
-              - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit, perspiciatis?
-            </a>
-            <a
-              href=""
-              class="text-blue-500 hover:text-blue-700 text-[12px] md:text-[1rem] border-b-2 border-transparent hover:border-blue-500"
-            >
-              - Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit, perspiciatis?
-            </a>
+            
           </div>
           <div className="mt-10">
             <p>
