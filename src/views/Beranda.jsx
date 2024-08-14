@@ -302,9 +302,9 @@ export default function Beranda() {
               <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-auto p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
                 <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">{category.name} di Bandung</h1>
                 <div className="flex flex-col justify-center items-center p-2 w-full">
-                  <img src="" alt={category.name} className="object-cover rounded-md md:w-[317px] md:h-[230px]" />
+                  <img src="https://random-image-pepebigotes.vercel.app/api/random-image" alt={category.name} className="object-cover rounded-md md:w-[317px] md:h-[230px]" />
                   <a
-                    href="/sortCulture"
+                    href={`/sortCulture/${category.id}`}
                     className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]"
                   >
                     <p className="font-medium text-[7.5px] md:text-[17px]">Lihat lebih banyak</p>

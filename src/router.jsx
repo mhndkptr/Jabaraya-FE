@@ -55,7 +55,7 @@ const router = createBrowserRouter([
       { path: "/artikellengkap/:id", element: <ArtikelLengkap /> },
       { path: "/budayalengkap/:id", element: <BudayaLengkap /> },
       { path: "/eventlengkap/:id", element: <EventLengkap /> },
-      { path: "/sortCulture", element: <SortCulture /> },
+      { path: "/sortCulture/:id", element: <SortCulture /> },
     ],
   },
   {

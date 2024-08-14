@@ -11,7 +11,7 @@ export default function SortCulture() {
 
     useEffect(() => {
         // Fetch cultures filtered by category ID
-        axios.get(`http://127.0.0.1:8000/api/cultures?category_id=1`)
+        axios.get(`http://127.0.0.1:8000/api/cultures?category_id=${id}`)
             .then(response => setCultures(response.data))
             .catch(error => console.error("Error fetching cultures:", error));
     }, [id]);
