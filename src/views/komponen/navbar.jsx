@@ -20,15 +20,10 @@ export default function Navbar() {
         <div className="flex items-center justify-center flex-1 lg:flex-grow-0">
           <div className="flex w-max justify-center items-center">
             <img src={Logo} alt="JABARAYA Logo" className="w-[3rem] h-[3rem]" />
-            <p className="text-white lg:text-[17px] text-[16px] md:text-[17px] font-semibold">
-              JABARAYA
-            </p>
+            <p className="text-white lg:text-[17px] text-[16px] md:text-[17px] font-semibold">JABARAYA</p>
           </div>
 
-          <span
-            onClick={toggle}
-            className="material-symbols-outlined md:hidden absolute right-0 block text-white cursor-pointer ml-3"
-          >
+          <span onClick={toggle} className="material-symbols-outlined md:hidden absolute right-0 block text-white cursor-pointer ml-3">
             {isOpen ? "close" : "menu"}
           </span>
         </div>

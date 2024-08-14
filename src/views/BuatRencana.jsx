@@ -24,49 +24,17 @@ export default function BuatRencana() {
   };
 
   const calculateTotalDistance = async (placeIds) => {
-    if (placeIds.length < 2) return;
+    if (placeIds.length < 2) return 0;
 
-    const service = new window.google.maps.DistanceMatrixService();
-    let totalMeters = 0;
+    let totalKm = 0;
 
     for (let i = 0; i < placeIds.length - 1; i++) {
-      const origins = [{ placeId: placeIds[i] }];
-      const destinations = [{ placeId: placeIds[i + 1] }];
-
-      try {
-        await new Promise((resolve, reject) => {
-          service.getDistanceMatrix(
-            {
-              origins,
-              destinations,
-              travelMode: "DRIVING",
-            },
-            (response, status) => {
-              if (status === "OK") {
-                const element = response.rows[0]?.elements[0];
-                if (element && element.distance) {
-                  const distance = element.distance.value;
-                  totalMeters += distance;
-                  resolve();
-                } else {
-                  reject("Distance data is undefined");
-                }
-              } else {
-                console.error("Error fetching distance matrix:", status);
-                reject(status);
-              }
-            }
-          );
-        });
-      } catch (error) {
-        const originCoords = await getCoordinates(placeIds[i]);
-        const destinationCoords = await getCoordinates(placeIds[i + 1]);
-        const distance = calculateHaversineDistance(originCoords, destinationCoords);
-        totalMeters += distance;
-      }
+      const originCoords = await getCoordinates(placeIds[i]);
+      const destinationCoords = await getCoordinates(placeIds[i + 1]);
+      const distance = calculateHaversineDistance(originCoords, destinationCoords);
+      totalKm += distance;
     }
 
-    const totalKm = totalMeters / 1000;
     return totalKm;
   };
 
@@ -85,7 +53,7 @@ export default function BuatRencana() {
 
   const calculateHaversineDistance = (coords1, coords2) => {
     const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371e3;
+    const R = 6371;
     const lat1 = toRad(coords1.lat);
     const lat2 = toRad(coords2.lat);
     const deltaLat = toRad(coords2.lat - coords1.lat);
@@ -177,6 +145,7 @@ export default function BuatRencana() {
         .post("/travel-plans", payload)
         .then(async (res) => {
           if (res?.data && (res.data?.statusCode === 201 || res.data?.statusCode === 200)) {
+            handleReset();
             travelPlan.destinations.map(async (destination, index) => {
               const destinationPayload = {
                 startAt: destination.startAt,
@@ -242,7 +211,6 @@ export default function BuatRencana() {
           }
         })
         .catch((err) => {
-          console.log(err);
           if (err.response && err.response.data && err.response.data.statusCode === 422) {
             console.log(err.response.data.errors);
             window.alert(err.response.message);
