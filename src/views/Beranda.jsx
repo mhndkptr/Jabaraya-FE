@@ -9,6 +9,7 @@ import money from "../assets/img-beranda/money.png";
 import jam from "../assets/img-beranda/jam.png";
 import mobil from "../assets/img-beranda/mobil.png";
 
+
 export default function Beranda() {
   const [articles, setArticles] = useState([]);
   const [news, setNews] = useState([]);
@@ -398,12 +399,13 @@ export default function Beranda() {
                 {category.name} di Bandung
               </h1>
               <div className="flex flex-col justify-center items-center p-2 w-full">
-              <img
-                  src=""
-                  alt={category.name}
+              {console.log(category)}
+                <img
+                  src="https://random-image-pepebigotes.vercel.app/api/random-image"
+                  alt={category.name || "default alt text"}
                   className="object-cover rounded-md md:w-[317px] md:h-[230px]"
                 />
-                <a href="/sortCulture" className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                <a href={`/sortCulture/${category.id}`} className="w-full rounded-md py-[7px] mt-2 md:mt-4 md:px-2 md:py-3 flex justify-center items-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <p className="font-medium text-[7.5px] md:text-[17px]">
                     Lihat lebih banyak
                   </p>
