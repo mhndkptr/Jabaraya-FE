@@ -625,8 +625,5 @@ const calculateHaversineDistance = (coords1, coords2, type = "km") => {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = R * c;
-  if (type === "m" && distance > 10000) {
-    return distance / 1000;
-  }
   return distance;
 };
