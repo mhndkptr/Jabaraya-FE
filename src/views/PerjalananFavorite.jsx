@@ -7,6 +7,7 @@ import imageOffice from "../assets/images/image-office.png";
 import iconLocation from "../assets/icons/icon-location.svg";
 import iconCalendar from "../assets/icons/icon-calendar.svg";
 import iconRoad from "../assets/icons/icon-road.svg";
+import iconStar from "../assets/icons/icon-star.png";
 import iconMoneyBag from "../assets/icons/icon-moneyBagClear.png";
 import iconCar from "../assets/icons/icon-car.svg";
 import iconMotorcycle from "../assets/icons/icon-motorcycle.svg";
@@ -116,12 +117,6 @@ export default function PerjalananFavorite() {
   const handleCloseModalDestinationOpen = () => {
     setIsModalDestinationOpen(false);
   };
-
-  useEffect(() => {
-    console.log(destinations);
-    console.log(startLocation);
-    console.log(travelPlan);
-  }, [isLoading]);
 
   return (
     <>
@@ -274,9 +269,50 @@ const TravelRecapCard = ({ travelPlan }) => {
 const TravelDestinationCard = ({ destination, distance, getTravelPlanData }) => {
   const [isExpand, setIsExpand] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingRecomendation, setIsLoadingRecomendation] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [note, setNote] = useState(destination.note ? destination.note : "");
   const [isDestinationLoading, setIsDestinationLoading] = useState(false);
+  const [placeRecomendations, setPlaceRecomendations] = useState([]);
+
+  useEffect(() => {
+    if (placeRecomendations.length === 0) {
+      setIsLoadingRecomendation(true);
+      const payload = {
+        locationLat: destination.detail_location.lat,
+        locationLng: destination.detail_location.lng,
+      };
+
+      axiosClient
+        .post(`/proxy/recomendation-places`, payload, {
+          headers: {
+            "X-HTTP-Method-Override": "GET",
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200 || res.data.statusCode === 201) {
+            setPlaceRecomendations(res.data.data);
+          } else {
+            window.alert("Something went wrong!");
+          }
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response.data.statusCode === 422) {
+            if (response.data.errors) {
+              window.alert(response.data?.message);
+            } else {
+              window.alert(response.data?.message);
+            }
+          } else {
+            window.alert("Something went wrong!");
+          }
+        })
+        .finally(() => {
+          setIsLoadingRecomendation(false);
+        });
+    }
+  }, []);
 
   const handleDeleteDestination = (e) => {
     e.preventDefault();
@@ -462,7 +498,39 @@ const TravelDestinationCard = ({ destination, distance, getTravelPlanData }) => 
           <>
             {isExpand && <h3 className="text-body-bold mt-3 md:mt-4">Rekomendasi Tempat</h3>}
             <div className="mt-3 md:mt-4">
-              <h1 className="text-caption">Belum guys hehe :)</h1>
+              {isLoadingRecomendation && <h1 className="text-caption">Loading...</h1>}
+              {!isLoadingRecomendation && placeRecomendations.length === 0 && <h1 className="text-caption">No recomendation data</h1>}
+              {!isLoadingRecomendation && placeRecomendations.length > 0 && (
+                <>
+                  <div className="w-full grid grid-cols-3 place-content-between p-1 gap-1.5">
+                    {placeRecomendations &&
+                      placeRecomendations.map((placeRecomendation, index) => {
+                        return (
+                          <div className="flex flex-col gap-1 md:gap-2 justify-between jbDropShadow rounded-md p-1 md:p-2 h-full" key={index}>
+                            <div className="flex flex-col gap-1 md:gap-2">
+                              <img src={placeRecomendation.thumbnail} alt={"thumbnail"} className="w-full object-center object-cover h-20 sm:h-24 md:h-36 lg:h-40 rounded-md" />
+                              <h1 className="text-caption-bold">{placeRecomendation.name}</h1>
+                              <div className="flex flex-row gap-2.5 items-center">
+                                <img src={iconStar} alt="rating" className="w-3.5 sm:w-4 md:w-5 lg:w-6 h-auto" />
+                                <p className="text-caption">{placeRecomendation.rating ? placeRecomendation.rating : "-"}</p>
+                              </div>
+                              <div className="flex flex-row gap-2.5 items-center">
+                                <img src={iconRoad} alt="distance" className="w-3.5 sm:w-4 md:w-5 lg:w-6 h-auto" />
+                                <p className="text-caption">
+                                  {Math.trunc(calculateHaversineDistance({ lat: destination.detail_location.lat, lng: destination.detail_location.lng }, { lat: placeRecomendation.lat, lng: placeRecomendation.lng }, "m"))} M
+                                </p>
+                              </div>
+                            </div>
+
+                            <a href={placeRecomendation.maps_link} target="_blank" className="text-caption text-white w-full text-center py-2 rounded-lg bg-[#3C90E8] hover:bg-[#3c8fe8e3] transition place-self-end">
+                              Cek tempat
+                            </a>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
             </div>
           </>
         )}
@@ -545,9 +613,9 @@ function calculateDaysBetweenDates(date1, date2) {
   return `${dayDifference} Hari`;
 }
 
-const calculateHaversineDistance = (coords1, coords2) => {
+const calculateHaversineDistance = (coords1, coords2, type = "km") => {
   const toRad = (value) => (value * Math.PI) / 180;
-  const R = 6371;
+  const R = type === "km" ? 6371 : 6371e3;
   const lat1 = toRad(coords1.lat);
   const lat2 = toRad(coords2.lat);
   const deltaLat = toRad(coords2.lat - coords1.lat);
@@ -557,5 +625,8 @@ const calculateHaversineDistance = (coords1, coords2) => {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = R * c;
+  if (type === "m" && distance > 10000) {
+    return distance / 1000;
+  }
   return distance;
 };
