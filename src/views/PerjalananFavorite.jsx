@@ -502,7 +502,7 @@ const TravelDestinationCard = ({ destination, distance, getTravelPlanData }) => 
               {!isLoadingRecomendation && placeRecomendations.length === 0 && <h1 className="text-caption">No recomendation data</h1>}
               {!isLoadingRecomendation && placeRecomendations.length > 0 && (
                 <>
-                  <div className="w-full grid grid-cols-3 place-content-between p-1 gap-1.5">
+                  <div className="w-full grid grid-cols-3 place-content-between p-1 gap-1.5 md:gap-2 lg:gap-2.5 xl:gap-3">
                     {placeRecomendations &&
                       placeRecomendations.map((placeRecomendation, index) => {
                         return (
