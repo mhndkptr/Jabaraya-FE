@@ -2,10 +2,8 @@ import React, { useRef, useState } from "react";
 import axiosClient from "../api/axios/axios";
 import kelinci from "../assets/img-beranda/kelinci.png";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
   const [isLoading, setIsloading] = useState(false);
@@ -23,7 +21,7 @@ export default function Login() {
         toast.success(res.data.message);
         localStorage.setItem("USER_ROLE", res.data.data.user.role);
         localStorage.setItem("ACCESS_TOKEN", res.data.data.token);
-        navigate("/");
+        window.location.replace("/");
       })
       .catch((err) => {
         const response = err.response;

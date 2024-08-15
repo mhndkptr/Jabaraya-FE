@@ -3,7 +3,8 @@ import { SidebarAdmin } from "./partials/SidebarAdmin";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import axiosClient from "../../api/axios/axios";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -15,31 +16,35 @@ export default function Dashboard() {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
-    Axios.get("http://127.0.0.1:8000/api/news")
-      .then(response => setBerita(response.data))
-      .catch(error => console.error("Error fetching news:", error));
-    
-    Axios.get("http://127.0.0.1:8000/api/articles")
-      .then(response => {
+    axiosClient
+      .get("/news")
+      .then((response) => setBerita(response.data))
+      .catch((error) => console.error("Error fetching news:", error));
+
+    axiosClient
+      .get("/articles")
+      .then((response) => {
         setArticles(response.data);
         generateChartData(response.data);
       })
-      .catch(error => console.error("Error fetching articles:", error));
-    
-    Axios.get("http://127.0.0.1:8000/api/events")
-      .then(response => setEvents(response.data))
-      .catch(error => console.error("Error fetching events:", error));
-    
-    Axios.get("http://127.0.0.1:8000/api/cultures")
-      .then(response => setCulture(response.data))
-      .catch(error => console.error("Error fetching cultures:", error));
+      .catch((error) => console.error("Error fetching articles:", error));
+
+    axiosClient
+      .get("/events")
+      .then((response) => setEvents(response.data))
+      .catch((error) => console.error("Error fetching events:", error));
+
+    axiosClient
+      .get("/cultures-all")
+      .then((response) => setCulture(response.data))
+      .catch((error) => console.error("Error fetching cultures:", error));
   }, []);
 
   const generateChartData = (articles) => {
     const uploadsPerDay = {};
 
-    articles.forEach(article => {
-      const date = new Date(article.published_at).toLocaleDateString('en-US', { weekday: 'long' });
+    articles.forEach((article) => {
+      const date = new Date(article.published_at).toLocaleDateString("en-US", { weekday: "long" });
       uploadsPerDay[date] = (uploadsPerDay[date] || 0) + 1;
     });
 
@@ -50,10 +55,10 @@ export default function Dashboard() {
       labels,
       datasets: [
         {
-          label: 'Uploads',
+          label: "Uploads",
           data,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: true,
         },
       ],
@@ -64,11 +69,11 @@ export default function Dashboard() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Uploads Over Time',
+        text: "Uploads Over Time",
       },
     },
   };
@@ -115,13 +120,9 @@ export default function Dashboard() {
           <div className="w-full">
             <h1 className="text-2xl font-semibold mb-2">Event Hari Ini</h1>
             <ul className="list-none border-b-2">
-              {events.map(event => (
+              {events.map((event) => (
                 <li key={event.id} className="media flex mb-4">
-                  <img 
-                    className="mr-3 rounded-full w-12 h-12" 
-                    src={`http://127.0.0.1:8000/storage/${event.thumbnail}`} 
-                    alt={event.name} 
-                  />
+                  <img className="mr-3 rounded-full w-12 h-12" src={`${event.thumbnail}`} alt={event.name} />
                   <div className="media-body">
                     <div className="float-right text-blue-500">{new Date(event.start_date).toLocaleString()}</div>
                     <div className="media-title font-semibold">{event.name}</div>

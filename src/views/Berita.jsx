@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import logo from "../assets/img-beranda/JABARAYA.png";
+import axiosClient from "../api/axios/axios";
 
 export default function Berita() {
   const [berita, setBerita] = useState([]);
@@ -9,8 +10,8 @@ export default function Berita() {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/news")
+    axiosClient
+      .get("/news")
       .then((response) => {
         const eventData = response.data
           .map((news) => ({
@@ -42,9 +43,7 @@ export default function Berita() {
   return (
     <>
       <section className="min-h-screen mb-0 md:mb-10">
-        <h2 className="text-4xl text-center mt-16 font-semibold">
-          Berita terkini di Bandung Raya
-        </h2>
+        <h2 className="text-4xl text-center mt-16 font-semibold">Berita terkini di Bandung Raya</h2>
         <div className="h-10 text-center w-full flex justify-center items-center relative mt-3">
           <div className="relative w-8 h-8 bg-white after:w-[165px] after:h-[1px] after:bg-[#D9D9D9] after:absolute after:top-[50%] after:left-12 before:w-[165px] before:h-[1px] before:bg-[#D9D9D9] before:absolute before:top-[50%] before:right-12">
             <img src={logo} alt="" />
@@ -60,28 +59,25 @@ export default function Berita() {
           <div className="flex justify-center gap-5 mx-auto">
             {currentNews.map((news) => (
               <div key={news.id} className="bg-slate-50 shadow-md rounded-lg flex flex-col h-auto w-full p-2">
-                <img
-                  src={`http://127.0.0.1:8000/storage/${news.thumbnail}`}
-                  alt={news.title}
-                  className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4"
-                />
+                <img src={`${news.thumbnail}`} alt={news.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
                 <div className="flex flex-col justify-between flex-grow">
                   <div>
                     <h2 className="font-semibold mb-2 text-lg">{news.title}</h2>
                     <div className="flex-col md:flex-row flex justify-between md:items-center w-full">
                       <div>
-                        <p className="text-xs mb-1">Oleh{" "}
-                          <a className="font-semibold text-jabarayaColors-700">Admin Ganteng</a>
+                        <p className="text-xs mb-1">
+                          Oleh <a className="font-semibold text-jabarayaColors-700">Admin Ganteng</a>
                         </p>
                       </div>
                       <div className="flex gap-2 mb-4 justify-end">
-                        <span className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md text-jabarayaColors-700">
-                          {new Date(news.created_at).toLocaleDateString()}
-                        </span>
+                        <span className="text-xs font-semibold border border-jabarayaColors-700 p-1 rounded-md text-jabarayaColors-700">{new Date(news.created_at).toLocaleDateString()}</span>
                       </div>
                     </div>
                   </div>
-                  <a href={`/beritaLengkap/${news.id}`} className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4">
+                  <a
+                    href={`/beritaLengkap/${news.id}`}
+                    className="w-full rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-2 py-3 md:flex justify-center items-center mt-4"
+                  >
                     <p className="font-medium">Baca Selengkapnya</p>
                   </a>
                 </div>
@@ -99,31 +95,19 @@ export default function Berita() {
                 className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <span className="sr-only">Previous</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 1 1 5l4 4"
-                  />
+                <svg className="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
                 </svg>
               </button>
             </li>
             {Array.from({ length: totalPages }, (_, index) => (
               <li key={index}>
                 <button
-                  onClick={() => handlePageChange(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${
-                    currentPage === index + 1
-                      ? "text-blue-600 border-blue-300 bg-blue-50"
-                      : ""
-                  } dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${
+                    currentPage === index + 1 ? "text-blue-600 border-blue-300 bg-blue-50" : ""
+                  } dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                >
                   {index + 1}
                 </button>
               </li>
@@ -131,22 +115,12 @@ export default function Berita() {
             <li>
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages} className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                disabled={currentPage === totalPages}
+                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
                 <span className="sr-only">Next</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 9 4-4L1 1"
-                  />
+                <svg className="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4L1 1" />
                 </svg>
               </button>
             </li>

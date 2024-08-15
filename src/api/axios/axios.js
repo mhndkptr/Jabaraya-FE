@@ -25,13 +25,6 @@ axiosClient.interceptors.response.use(
   (error) => {
     const { response } = error;
 
-    if (error.code === "ERR_BAD_RESPONSE") {
-      localStorage.removeItem("ACCESS_TOKEN");
-      localStorage.removeItem("USER_ROLE");
-      window.alert("Server error!");
-      window.location.replace("/");
-    }
-
     if (error.code === "ERR_NETWORK") {
       localStorage.removeItem("ACCESS_TOKEN");
       localStorage.removeItem("USER_ROLE");

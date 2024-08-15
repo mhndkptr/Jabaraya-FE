@@ -9,13 +9,18 @@ import home from "../../assets/img-beranda/home.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = window.location.pathname;
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <nav className="bg-gradient-to-r from-jabarayaColors-700/80 to-[#15314F]/80 md:from-jabarayaColors-700/60 rounded-b-lg md:rounded-none md:to-[#15314F]/60 py-3 w-full top-0 backdrop-blur-lg left-0 right-0 sticky z-50 px-8">
+    <nav
+      className={`bg-gradient-to-r from-jabarayaColors-700/80 to-[#15314F]/80 md:from-jabarayaColors-700/60 rounded-b-lg md:rounded-none md:to-[#15314F]/60 py-3 w-full top-0 backdrop-blur-lg left-0 right-0 z-50 px-8 ${
+        pathname.startsWith("/profile") || pathname === "/" || pathname.startsWith("/buatrencana") ? "fixed" : "sticky"
+      }`}
+    >
       <div className="md:flex-row flex-col md:gap-10 lg:gap-0 flex md:justify-between items-center relative ">
         <div className="flex items-center justify-center flex-1 lg:flex-grow-0">
           <div className="flex w-max justify-center items-center">

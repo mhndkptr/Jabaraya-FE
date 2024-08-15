@@ -8,7 +8,14 @@ import jalan from "../assets/img-beranda/jalan.png";
 import money from "../assets/img-beranda/money.png";
 import jam from "../assets/img-beranda/jam.png";
 import mobil from "../assets/img-beranda/mobil.png";
-
+import axiosClient from "../api/axios/axios";
+import toast from "react-hot-toast";
+import iconCar from "../assets/icons/icon-car.svg";
+import iconMotorcycle from "../assets/icons/icon-motorcycle.svg";
+import iconBus from "../assets/icons/icon-bus.svg";
+import iconPlane from "../assets/icons/icon-plane.svg";
+import iconTrain from "../assets/icons/icon-train.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Beranda() {
   const [articles, setArticles] = useState([]);
@@ -16,34 +23,35 @@ export default function Beranda() {
   const [events, setEvents] = useState([]);
   const [cultures, setCultures] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [travelPlan, setTravelPlan] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/articles")
+    axiosClient
+      .get("/articles")
       .then((response) => {
         const sortedArticles = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setArticles(sortedArticles.slice(0, 3));
       })
       .catch((error) => console.error("Error fetching articles:", error));
 
-    axios
-      .get("http://127.0.0.1:8000/api/news")
+    axiosClient
+      .get("/news")
       .then((response) => {
         const sortedNews = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setNews(sortedNews.slice(0, 3));
       })
       .catch((error) => console.error("Error fetching news:", error));
 
-    axios
-      .get("http://127.0.0.1:8000/api/events")
+    axiosClient
+      .get("/events")
       .then((response) => {
         const sortedEvents = response.data.sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
         setEvents(sortedEvents.slice(0, 3));
       })
       .catch((error) => console.error("Error fetching events:", error));
 
-    axios
-      .get("http://127.0.0.1:8000/api/categorys")
+    axiosClient
+      .get("/categorys")
       .then((response) => {
         setCategories(response.data);
       })
@@ -51,11 +59,38 @@ export default function Beranda() {
         console.error("Error fetching categories data:", error);
       });
 
-    axios
-      .get("http://127.0.0.1:8000/api/cultures")
-      .then((response) => setCultures(response.data))
+    axiosClient
+      .get("/cultures-all")
+      .then((response) => {
+        setCultures(response.data);
+      })
       .catch((error) => console.error("Error fetching cultures:", error));
+
+    getTravelPlan();
   }, []);
+
+  const getTravelPlan = () => {
+    const isLoggedIn = () => !!localStorage.getItem("ACCESS_TOKEN");
+    const getRole = () => localStorage.getItem("USER_ROLE");
+    if (isLoggedIn() && getRole() === "user") {
+      axiosClient
+        .get(`/travel-plans/latest`)
+        .then((res) => {
+          if (res.data?.data) {
+            if (res.data?.data.id) {
+              setTravelPlan(res.data.data);
+            }
+          } else {
+            toast.error("Something went wrong!");
+          }
+        })
+        .catch((err) => {
+          const response = err.response;
+          console.error(response);
+          toast.error("Something went wrong!");
+        });
+    }
+  };
 
   return (
     <section>
@@ -78,75 +113,38 @@ export default function Beranda() {
       </section>
 
       {/* // SECTION 2 PERJALANAN */}
-      <section id="BuatRencana" className="w-full md:w-auto md:h-screen h-auto bg-white md:bg-jabarayaColors-50 flex justify-center items-center px-4">
+      <section id="BuatRencana" className="w-full md:w-auto md:h-screen h-auto bg-white md:bg-jabarayaColors-50 flex justify-center items-center px-4 pt-10">
         <div className="flex flex-col justify-center items-center w-full">
           <h1 className="font-semibold text-4xl text-center mb-4 hidden md:block">Buat Rencana Perjalanan Anda</h1>
 
           <h3 className="font-medium text-xl text-center mb-4 hidden md:block">Lihat Rencana Perjalanan Anda</h3>
           {/* BELUM BUAT RENCANA */}
-          <div className="md:w-[700px] md:h-[310px] hidden w-[400px] h-[200px] bg-gradient-to-r from-[#6C4EE4] to-[#1B78AD] jbDropShadow rounded-xl flex-col justify-center items-center">
-            <div className="flex flex-col items-center">
-              <img src={emoji} alt="" className="w-[70px] h-[80px] " />
-              <button className="p-3 bg-white rounded-xl mt-5 px-4 ">
-                <p className="text-xl text-[#1C426B] ">Buat rencana Healing disinii</p>
-              </button>
+          {!travelPlan && (
+            <div className="lg:w-1/2 md:h-[310px] w-full h-[200px] bg-gradient-to-r from-[#6C4EE4] to-[#1B78AD] jbDropShadow rounded-xl flex-col justify-center items-center">
+              <div className="flex flex-col items-center h-full justify-center">
+                <img src={emoji} alt="" className="w-[70px] h-[80px] " />
+                <button
+                  onClick={() => {
+                    window.location.replace("/buatrencana");
+                  }}
+                  className="p-3 bg-white rounded-xl mt-5 px-4 hover:bg-slate-200 transition"
+                >
+                  <p className="titel2 text-[#1C426B] ">Buat rencana Healing disinii</p>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* SETELAH BUAT RENCANA */}
-          <div className="w-full">
-            <div className="w-full">
-              <h1 className="font-semibold text-[24px]  md:hidden text-start mb-4 ">Perjalanan Kamu</h1>
-            </div>
-            <div className="w-full bg-jabarayaColors-700 md:w-[700px] mx-auto jbDropShadow rounded-xl p-4">
-              <div className="flex gap-3 text-white items-center w-full">
-                <img src={tropical} alt="" className="w-[30px] h-[30px] " />
-                <h3 className="font-semibold  text-[16px] md:text-xl">Perjalanan seru bulan Juli!</h3>
-              </div>
-              <div className="w-full">
-                <div className="flex flex-wrap  mt-5 gap-2 md:gap-5">
-                  <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
-                    <img src={money} alt="" className="h-[20px] w-[20px] " />
-                    <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] ">Rp. 1.000.000</p>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
-                    <img src={mobil} alt="" className="h-[20px] w-[20px] " />
-                    <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] ">Mobil</p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap  mt-[16px] md:mt-5 gap-2 md:gap-5">
-                  <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
-                    <img src={jalan} alt="" className="h-[20px] w-[20px] " />
-                    <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] ">150KM</p>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
-                    <img src={jam} alt="" className="h-[20px] w-[20px] " />
-                    <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] ">5 Jam</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mt-5 text-white">
-                  <h1 className="font-medium text-[12px] ">Tangerang</h1>
-                  <div className="w-auto md:w-[500px] h-[1px] flex items-center ml-3">
-                    <span className="w-[150px] md:w-[500px] border-b-[2px] border-dotted border-white h-[1px] "></span>
-                    <span className="material-symbols-outlined ">chevron_right</span>
-                  </div>
-                  <h1 className="font-medium text-[12px] ">Lembang</h1>
-                </div>
-                {/* button lihat rencana perjalanan */}
-                <div className="flex gap-2 items-center justify-center mt-4">
-                  <button className="text-[#1C426B] flex justify-center p-2 md:p-3 flex-1 bg-white rounded-lg  font-semibold text-[12px] md:text-xl ">Lihat rencana Perjalanan</button>
-                  <button>
-                    <span className="material-symbols-outlined border text-[16px] p-2 md:text-[1.7rem] text-white border-white rounded-lg md:rounded-xl md:py-3 md:px-[15px]">delete</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          {travelPlan && travelPlan.id && <TravelCard travelPlan={travelPlan} getTravelPlan={getTravelPlan} setTravelPlan={setTravelPlan} />}
 
-          <button className="p-4 bg-jabarayaColors-700 hover:bg-jabarayaColors-800 transition md:w-[700px] mt-4 w-full rounded-md hidden md:block ">
-            <a href="/buatrencana" className="text-white font-medium">
-              Buat rencana perjalanan kamu disini!
-            </a>
+          <button
+            onClick={() => {
+              window.location.replace("/buatrencana");
+            }}
+            className="p-4 bg-jabarayaColors-700 hover:bg-jabarayaColors-800 transition lg:w-1/2 mt-4 w-full rounded-md hidden md:block "
+          >
+            <h1 className="text-white titel2-bold">Buat rencana perjalanan kamu disini!</h1>
           </button>
         </div>
       </section>
@@ -163,10 +161,10 @@ export default function Beranda() {
           <h3 className="font-medium text-xl text-center  hidden md:block   ">Dapatkan Update Terkini di Bandung</h3>
           {/* CONTAINER BERITA */}
           <div className="mt-6 min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
-            {news.map((newsItem) => (
-              <div className=" bg-slate-50 shadow-md rounded-lg h-auto w-[310px] p-2 inline-block ">
+            {news.map((newsItem, index) => (
+              <div key={index} className=" bg-slate-50 shadow-md rounded-lg h-auto w-[310px] p-2 inline-block ">
                 <div className="flex flex-col justify-center items-center">
-                  <img src={`http://127.0.0.1:8000/storage/${newsItem.thumbnail}`} alt={newsItem.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
+                  <img src={`${newsItem.thumbnail}`} alt={newsItem.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
                   <h2 className="font-semibold mb-2">{newsItem.title}</h2>
                   <div className="flex justify-between items-center w-full">
                     <div>
@@ -207,10 +205,10 @@ export default function Beranda() {
           <h3 className="font-medium text-xl text-center  hidden md:block   ">Dapatkan Artikel Viral Terkini di Bandung</h3>
           {/* CONTAINER ARTIKEL */}
           <div className="mt-6min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
-            {articles.map((article) => (
-              <div className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block ">
+            {articles.map((article, index) => (
+              <div key={index} className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block ">
                 <div className="flex flex-col justify-center items-center">
-                  <img src={`http://127.0.0.1:8000/storage/${article.thumbnail}`} alt={article.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
+                  <img src={`${article.thumbnail}`} alt={article.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
                   <h2 className="font-semibold mb-2">{article.title}</h2>
                   <div className="flex justify-between items-center w-full">
                     <div>
@@ -251,10 +249,10 @@ export default function Beranda() {
           <h3 className="font-medium text-xl text-center  hidden md:block   ">Lihat Event-Event Menarik di Bandung</h3>
           {/* CONTAINER EVENT */}
           <div className="mt-6 min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
-            {events.map((event) => (
-              <div className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block">
+            {events.map((event, index) => (
+              <div key={index} className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block">
                 <div className="flex flex-col justify-center items-center">
-                  <img src={`http://127.0.0.1:8000/storage/${event.thumbnail}`} alt={event.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
+                  <img src={`${event.thumbnail}`} alt={event.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
                   <h2 className="font-semibold mb-2">{event.name}</h2>
                   <div className="flex justify-between items-center w-full">
                     <div>
@@ -285,7 +283,7 @@ export default function Beranda() {
       </section>
 
       {/* SECTION 6 TELUSURI BUDAYA  */}
-      <section id="DaftarBudaya" className="w-full bg-white flex justify-center items-center md:bg-jabarayaColors-50 ">
+      <section id="DaftarBudaya" className="w-full bg-white flex justify-center items-center md:bg-jabarayaColors-50 py-10">
         <div className="flex flex-col justify-center items-center mt-10">
           <div className="flex justify-between items-center w-full px-2 md:px-4">
             <h1 className="font-semibold md:hidden block text-[20px] md:text-4xl text-center lg:mb-4">Budaya di Bandung</h1>
@@ -298,8 +296,8 @@ export default function Beranda() {
           {/* CONTAINER */}
           {/* Container 1 */}
           <div className="h-auto mt-5 flex justify-center items-center flex-wrap gap-4 md:gap-6 lg:gap-8">
-            {categories.map((category) => (
-              <div className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-auto p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
+            {categories.map((category, index) => (
+              <div key={index} className="bg-slate-50 shadow-md rounded-lg  flex flex-col justify-start items-start gap-0 w-[152px] h-auto p-2  md:w-[300px] md:h-[370px] lg:w-[362px] lg:h-[390px]">
                 <h1 className="font-bold text-[11px]  md:text-[20px] lg:text-[26px] p-1 ">{category.name} di Bandung</h1>
                 <div className="flex flex-col justify-center items-center p-2 w-full">
                   <img src="https://random-image-pepebigotes.vercel.app/api/random-image" alt={category.name} className="object-cover rounded-md md:w-[317px] md:h-[230px]" />
@@ -318,3 +316,155 @@ export default function Beranda() {
     </section>
   );
 }
+
+const TravelCard = ({ travelPlan, getTravelPlan, setTravelPlan }) => {
+  const navigate = useNavigate();
+  const [vehicles, setVehicles] = useState("-");
+  const [duration, setDuration] = useState("-");
+  const [isLoading, setIsLoading] = useState(false);
+  const destinations = travelPlan.destinations;
+
+  useEffect(() => {
+    function calculateDaysBetweenDates(date1, date2) {
+      const startDate = new Date(date1);
+      const endDate = new Date(date2);
+
+      const timeDifference = endDate - startDate;
+
+      let dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+      if (dayDifference === 0) {
+        dayDifference = 1;
+      }
+
+      return `${dayDifference} Hari`;
+    }
+
+    if (destinations.length > 0) {
+      let vehicleData = [];
+      destinations.map((destination) => {
+        vehicleData.push(destination.vehicle);
+      });
+
+      let uniqueArray = [...new Set(vehicleData)];
+      uniqueArray = uniqueArray.map((item) => item.charAt(0).toUpperCase() + item.slice(1));
+
+      setVehicles(uniqueArray.join(", ") + ".");
+      setDuration(calculateDaysBetweenDates(travelPlan.startAt, travelPlan.endAt));
+    }
+  }, []);
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    setIsLoading(true);
+    axiosClient
+      .delete(`/travel-plans/${id}`)
+      .then((res) => {
+        if (res.data?.statusCode === 200) {
+          toast.success(res.data?.message);
+          setTravelPlan(null);
+          getTravelPlan();
+        } else {
+          toast.error("Failed to delete Travel Plan");
+        }
+      })
+      .catch((err) => {
+        const response = err.response;
+        toast.error("Failed to delete Travel Plan");
+        console.error(response);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  return (
+    <div className="bg-[#2F70B5] jbDropShadow rounded-xl p-4 lg:w-1/2 w-full">
+      <div className="flex gap-3 text-white items-center">
+        <img src={tropical} alt="" className="w-[30px] h-[30px] " />
+        <h3 className="font-semibold  text-[16px] md:text-xl">{travelPlan.name}</h3>
+      </div>
+      <div>
+        <div className="grid grid-cols-2 mt-5 gap-2 md:gap-5">
+          <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
+            <img src={money} alt="" className="h-[20px] w-[20px] " />
+            <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] ">{toRupiah(travelPlan.estimation)}</p>
+          </div>
+          <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
+            <img
+              src={
+                destinations.length > 0
+                  ? destinations[0].vehicle === "car"
+                    ? iconCar
+                    : destinations[0].vehicle === "motorcycle"
+                    ? iconMotorcycle
+                    : destinations[0].vehicle === "bus"
+                    ? iconBus
+                    : destinations[0].vehicle === "plane"
+                    ? iconPlane
+                    : destinations[0].vehicle === "train"
+                    ? iconTrain
+                    : iconCar
+                  : iconCar
+              }
+              alt="Vehicle"
+              className="h-[20px] w-[20px] icon-blue-color"
+            />
+            <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] capitalize">{vehicles}</p>
+          </div>
+          <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
+            <img src={jalan} alt="" className="h-[20px] w-[20px] " />
+            <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B]">{Math.trunc(travelPlan.totalDistance)} KM</p>
+          </div>
+          <div className="flex items-center gap-2 bg-white p-2 rounded-lg flex-1">
+            <img src={jam} alt="" className="h-[20px] w-[20px] " />
+            <p className=" text-[12px] md:text-[15px] font-semibold text-[#1C426B] ">{duration}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between mt-5 text-white">
+          <h1 className="font-medium text-[12px] md:text-[20px] text-nowrap">{travelPlan.start_location.name}</h1>
+          <div className="w-full h-[1px] flex items-center ml-3">
+            <span className="w-full border-b-[2px] border-dotted border-white h-[1px] "></span>
+            <span className="material-symbols-outlined ">chevron_right</span>
+          </div>
+          <h1 className="font-medium text-[12px] md:text-[20px] text-nowrap">{travelPlan.destinations.length > 0 ? travelPlan.destinations[travelPlan.destinations.length - 1].detail_location.name : ""}</h1>
+        </div>
+
+        <div className="flex gap-2 items-center justify-center mt-4">
+          <button
+            type="button"
+            className="text-[#1C426B] flex justify-center p-2 md:p-3 flex-1 bg-white rounded-lg hover:bg-slate-200 transition font-semibold text-[12px] md:text-xl "
+            onClick={() => navigate(`/perjalananfavorite/${travelPlan.id}`)}
+            disabled={isLoading}
+          >
+            Lihat rencana Perjalanan
+          </button>
+          <button
+            type="button"
+            className="bg-transparent rounded-lg md:rounded-xl transition-all group"
+            onClick={(e) => {
+              handleDelete(e, travelPlan.id);
+            }}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="border-gray-300 lg:h-6 lg:w-6 w-4 h-4 animate-spin rounded-full border-2 border-t-white m-2 md:my-3" />
+            ) : (
+              <span className="material-symbols-outlined border text-[16px] p-2 md:text-[1.7rem] text-white border-white group-hover:bg-slate-50 transition group-hover:text-jabarayaColors-900 rounded-lg md:rounded-xl md:py-3 md:px-[15px]">
+                delete
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const toRupiah = (number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
+};
