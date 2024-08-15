@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import axiosClient from "../api/axios/axios";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
+import toast from "react-hot-toast";
 
 export default function SocialLoginRedirect() {
   const location = useLocation();
@@ -19,11 +20,13 @@ export default function SocialLoginRedirect() {
       .then((res) => {
         localStorage.setItem("USER_ROLE", res.data.data.user.role);
         window.location.replace("/");
+        toast.success(res.data?.message);
       })
       .catch((err) => {
         const response = err.response;
         window.location.replace("/login");
-        console.log(response);
+        console.error(response);
+        toast.error("Something went wrong!");
       });
   };
 
