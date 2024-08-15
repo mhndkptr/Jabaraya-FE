@@ -52,6 +52,19 @@ export default function UserManajemen() {
             return nameB.localeCompare(nameA);
         }
     });
+    // METHOD DELETE
+    const handleDelete = (id) => {
+        axiosClient
+            .delete(`/users/${id}`)
+            .then((res) => {
+                console.log(res);
+                setUsers(users.filter((user) => user.id !== id));
+            }
+            )
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     // Pagination logic
     const indexOfLastUser = currentPage * usersPerPage;
@@ -114,6 +127,7 @@ export default function UserManajemen() {
                                     <Table.HeadCell>Email</Table.HeadCell>
                                     <Table.HeadCell>Avatar</Table.HeadCell>
                                     <Table.HeadCell>Role</Table.HeadCell>
+                                    <Table.HeadCell>Aksi</Table.HeadCell>
                                 </Table.Head>
                                 <Table.Body className="divide-y">
                                     {currentUsers.map(user => (
@@ -124,6 +138,9 @@ export default function UserManajemen() {
                                                 <img src={user.avatar} alt="avatar" className="w-10 h-10 rounded-full"/>
                                             </Table.Cell>
                                             <Table.Cell>{user.role}</Table.Cell>
+                                            <Table.Cell>
+                                                <button className="text-red-500" onClick={() => handleDelete(user.id)}>Delete</button>
+                                            </Table.Cell>
                                         </Table.Row>
                                     ))}
                                 </Table.Body>

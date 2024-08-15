@@ -19,7 +19,6 @@ import iconTrash from "../assets/icons/icon-trash.svg";
 import iconEdit from "../assets/icons/icon-edit.svg";
 import iconPaper from "../assets/icons/icon-paper.png";
 import AddDestinationModal from "../components/AddDestinationModal";
-import PropTypes from "prop-types";
 
 export default function PerjalananFavorite() {
   const navigate = useNavigate();

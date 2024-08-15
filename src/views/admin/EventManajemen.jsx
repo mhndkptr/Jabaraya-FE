@@ -374,7 +374,7 @@ export default function EventManajemen() {
                     <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Location:</strong> <a href={selectedEvent.location} target="_blank" rel="noopener noreferrer" className="text-blue-500 dark:text-blue-400">{selectedEvent.location}</a></p>
                     <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Start Date:</strong> {selectedEvent.start_date}</p>
                     <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">End Date:</strong> {selectedEvent.end_date}</p>
-                    <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Content:</strong> {selectedEvent.content}</p>
+                    {/* <p className="dark:text-white"><strong className="text-gray-900 dark:text-gray-100">Content:</strong> {selectedEvent.content}</p> */}
                     <p><strong className="text-gray-900 dark:text-gray-100">Link:</strong> <a href={selectedEvent.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 dark:text-blue-400">{selectedEvent.link}</a></p>
                     <button onClick={closeModal} className="mt-4 inline-flex items-center text-black bg-transparent border border-black hover:bg-jabarayaColors-700 hover:text-white hover:border-none focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-gray-600 dark:hover:text-white dark:text-white dark:border-none dark:bg-gray-700">
                         Close

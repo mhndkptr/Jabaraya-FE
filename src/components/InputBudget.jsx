@@ -57,7 +57,7 @@ export default function InputBudget({ handleSubmit, setIsShowInputBudget, initia
               <div className="flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
                 <label htmlFor="input-budget-transportation" className="flex items-center justify-between h-[65%] gap-3 w-2/5 pr-4 border-r border-[#BDBBBB] overflow-visible">
                   <img className="md:w-8 md:h-7 w-7 h-6" src={iconTransportation} alt="Location Icon" />
-                  <h2 className="w-full">Transportasi</h2>
+                  <h2 className="w-full text-body">Transportasi</h2>
                 </label>
                 <input
                   id="input-budget-transportation"
@@ -75,7 +75,7 @@ export default function InputBudget({ handleSubmit, setIsShowInputBudget, initia
               <div className="flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
                 <label htmlFor="input-budget-lodging" className="flex items-center justify-between h-[65%] gap-3 w-2/5 pr-4 border-r border-[#BDBBBB] overflow-visible">
                   <img className="md:w-8 md:h-7 w-7 h-6" src={iconLodging} alt="Location Icon" />
-                  <h2 className="w-full">Penginapan</h2>
+                  <h2 className="w-full text-body">Penginapan</h2>
                 </label>
                 <input
                   id="input-budget-lodging"
@@ -93,7 +93,7 @@ export default function InputBudget({ handleSubmit, setIsShowInputBudget, initia
               <div className="flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
                 <label htmlFor="input-budget-consumption" className="flex items-center justify-between h-[65%] gap-3 w-2/5 pr-4 border-r border-[#BDBBBB] overflow-visible">
                   <img className="md:w-8 md:h-7 w-7 h-6" src={iconConsumption} alt="Location Icon" />
-                  <h2 className="w-full">Konsumsi</h2>
+                  <h2 className="w-full text-body">Konsumsi</h2>
                 </label>
                 <input
                   id="input-budget-consumption"
@@ -111,7 +111,7 @@ export default function InputBudget({ handleSubmit, setIsShowInputBudget, initia
               <div className="flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
                 <label htmlFor="input-budget-emergencyFund" className="flex items-center justify-between h-[65%] gap-3 w-2/5 pr-4 border-r border-[#BDBBBB] overflow-visible">
                   <img className="md:w-8 md:h-7 w-7 h-6" src={iconEmergencyFund} alt="Location Icon" />
-                  <h2 className="w-full">Dana Darurat</h2>
+                  <h2 className="w-full text-body">Dana Darurat</h2>
                 </label>
                 <input
                   id="input-budget-emergencyFund"
@@ -129,7 +129,7 @@ export default function InputBudget({ handleSubmit, setIsShowInputBudget, initia
               <div className="flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
                 <label htmlFor="input-budget-souvenir" className="flex items-center justify-between h-[65%] gap-3 w-2/5 pr-4 border-r border-[#BDBBBB] overflow-visible">
                   <img className="md:w-8 md:h-7 w-7 h-6" src={iconSouvenir} alt="Location Icon" />
-                  <h2 className="w-full">Oleh-oleh</h2>
+                  <h2 className="w-full text-body">Oleh-oleh</h2>
                 </label>
                 <input
                   id="input-budget-souvenir"
@@ -147,7 +147,7 @@ export default function InputBudget({ handleSubmit, setIsShowInputBudget, initia
               <div className="flex jbDropShadow gap-3 items-center justify-between rounded-lg py-2 px-4">
                 <label htmlFor="input-budget-total" className="flex items-center justify-between h-[65%] gap-3 w-2/5 pr-4 border-r border-[#BDBBBB] overflow-visible">
                   <img className="md:w-8 md:h-7 w-7 h-6" src={iconMoneyBag} alt="Location Icon" />
-                  <h2 className="w-full">Total</h2>
+                  <h2 className="w-full text-body">Total</h2>
                 </label>
                 <input
                   id="input-budget-total"
