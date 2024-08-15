@@ -19,7 +19,7 @@ export default function SortCulture() {
     return (
         <section className="border-black w-full min-h-screen px-5 md:px-28 mt-10 -z-10">
             <h2 className="text-4xl text-center mt-16 font-semibold">
-                Artikel lagi viral di Bandung
+                Budaya Asli Bandung
             </h2>
             <div className="h-10 text-center w-full flex justify-center items-center relative mt-3">
                 <div className="relative w-8 h-8 bg-white after:after-content after:w-[165px] after:h-[1px] after:bg-[#D9D9D9] after:absolute after:top-[50%] after:left-12 before:after-content before:w-[165px] before:h-[1px] before:bg-[#D9D9D9] before:absolute before:top-[50%] before:right-12">
@@ -29,7 +29,7 @@ export default function SortCulture() {
             <div className="mx-44 relative mt-5 hidden lg:block">
                 <div className="flex items-center gap-2 relative after:after-content after:min-w-[80%] after:h-[1px] after:left-[16.5%] after:absolute after:bg-[#D9D9D9]">
                     <div className="w-3 h-3 bg-[#D9D9D9] rounded-full"></div>
-                    <p className="text-body-bold">Artikel Yang Lagi Hits</p>
+                    <p className="text-body-bold">Budaya Asli Bandung </p>
                 </div>
             </div>
             <button
