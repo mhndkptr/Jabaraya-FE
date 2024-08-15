@@ -251,7 +251,7 @@ export default function Beranda() {
           {/* CONTAINER EVENT */}
           <div className="mt-6 min-w-[350px]  h-[420px] md:min-w-[750px] lg:w-auto md:h-auto md:flex md:px-4 grid grid-flow-col gap-4 lg:justify-center items-center overflow-x-auto md:overflow-hidden    ">
             {events.map((event) => (
-              <div className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block ">
+              <div className=" bg-slate-50 shadow-md rounded-lg h-auto  w-[310px] p-2 inline-block">
                 <div className="flex flex-col justify-center items-center">
                   <img src={`http://127.0.0.1:8000/storage/${event.thumbnail}`} alt={event.title} className="object-cover rounded-md w-full h-48 mb-2 lg:mb-4" />
                   <h2 className="font-semibold mb-2">{event.name}</h2>
